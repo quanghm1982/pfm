@@ -1,0 +1,139 @@
+Kỷ yếu Hội nghị Quốc gia lần thứ VIII về Nghiên cứu cơ bản và ứng dụng Công nghệ thông tin (FAIR); Hà Nội, ngày 9-10/7/2015
+DOI: 10.15625/vap.2015.000216
+VỀ ĐỘ PHỨC TẠP TÍNH TOÁN CỦA MỘT BÀI TOÁN LIÊN QUAN ĐẾN TẬP RÚT GỌN TRÊN BẢNG QUYẾT ĐỊNH
+Nguyễn Ngọc Cương1, Vũ Đức Thi2
+1Khoa Toán-Tin - Học viện an ninh nhân dân 2Viện Công nghệ thông tin - Đại học quốc gia Hà Nội
+TÓM TẮT - Trên thực tiễn, các vấn đề liên quan đến tập rút gọn trên bảng quyết định đã được nhiều tác giả đề cập và nghiên cứu. Trong bài báo này, chúng tôi trình bày một bài toán co-NP - đầy đủ liên quan đến các tập rút gọn trên bảng quyết định. Chúng ta gọi A là tập tựa rút gọn trên bảng quyết định nhất quán DS với tập thuộc tính CU{d} và d là thuộc tính quyết định nếu A chứa một tập rút gọn nào đó. Tương tự chúng ta gọi A là tập tựa tối thiểu của thuộc tính d trên sơ đồ quan hệ s= < C U {d}, F> nếu A chứa một tập tối thiểu của thuộc tính d. Gọi Q là tập tất cả các tập tựa rút gọn của bảng quyết định DS, P là tập tất cả các tập tựa tối thiểu của thuộc tính d trên s. Khi đó bài toán xác định Q có là tập con của P hay không là co-NP - đầy đủ.
+Việc tìm kiếm các tập rút gọn đóng vai trò quan trọng trong việc xử lí thông tin trên bảng quyết định. Mục tiêu của rút gọn thuộc tính là loại bỏ các thuộc tính dư thừa để tìm ra các thuộc tính cơ bản phục vụ cho việc xử lí thông tin. Về thực chất, việc rút gọn thuộc tính là tìm tập con nhỏ nhất của tập các thuộc tính để bảo toàn thông tin phân lớp trên bảng quyết định. Trong bài báo này chúng tôi chỉ đề cập tới các bảng quyết định nhất quán. Trên thực tiễn, tùy theo từng bài toán cụ thể, chúng ta có thể chuyển bảng quyết định không nhất quán về bảng quyết định nhất quán.
+Bài báo này trình bày về một bài toán co-NP - đầy đủ liên quan đến các tập rút gọn trên bảng quyết định. Chúng ta gọi A là tập tựa rút gọn trên bảng quyết định DS với tập thuộc tính C U {d} và d là thuộc tính quyết định nếu A chứa một tập rút gọn nào đó. Tương tự chúng ta gọi A là tập tựa tối thiểu của thuộc tính d trên sơ đồ quan hệ
+s= < C U {d}, F> nếu A chứa một tập tối thiểu không tầm thường của thuộc tính d. Gọi Q là tập tất cả các tập tựa rút gọn của bảng quyết định DS, P là tập tất cả các tập tựa tối thiểu của thuộc tính d trên s. Khi đó bài toán xác định Q có là tập con của P hay không là co-NP - đầy đủ.
+I. NHỮNG KHÁI NIỆM CƠ BẢN
+Mục này cung cấp một số khái niệm cơ bản được dùng trong bài báo. Các khái niệm này có thể xem trong [ 2,3,5].
+Địnhnghĩa1.1.Hệthôngtinlàmộtbộbốn S=(U,A,V,f) trongđóUlàtậphữuhạn,khácrỗngcácđối tượng; A là tập hữu hạn, khác rỗng các thuộc tính; V =∪Va với Va là tập giá trị của thuộc tính a∈A;
+a∈A
+f :U×A→Va làhàmthôngtin, ∀a∈A,u∈U f (u,a)∈Va .
+ Với mọi u∈U, a∈A, ta ký hiệu giá trị thuộc tính a tại đối tượng u là a(u) thay vì f (u,a). Nếu B ={b ,b ,...,b }⊆ A là một tập con các thuộc tính thì ta ký hiệu bộ các giá trị b (u) bởi B(u). Như vậy, nếu u
+12k i vàvlàhaiđốitượng,thìtaviết B(u)=B(v)nếu bi (u)=bi (v)vớimọi i=1,...,k..
+Định nghĩa 1.2. Bảng quyết định là một hệ thông tin S = (U, A, V, f) với A= C                         D và C∩D=∅. Bảng quyết định S được gọi là nhất quán nếu D phụ thuộc hàm vào C, tức là với mọi u,v∈U, C(u)=C(v) kéo theo
+D(u)= D(v). Ngược lại thì gọi là không nhất quán hay mâu thuẫn. C được gọi là tập thuộc tính điều kiện và D là tập thuộc tính quyết định
+Thông thường D = {d} chứa một thuộc tính
+Địnhnghĩa1.3.ChobảngquyếtđịnhnhấtquánDS=(U,C∪D,V,f)vàtậpthuộctính R⊆C.Rđượcgọilàtập rút gọn nếu:
+- với mọi cặp đối tượng u, v thì R(u) = R(v) kéo theo D(u) = D(v)
+- với mọiElàtậpconthựcsựcủaRthìtồntạicặpu,vđể E(u)=E(v)khôngkéotheo D(u) = D(v)
+
+756 VỀ ĐỘ PHỨC TẠP TÍNH TOÁN CỦA MỘT BÀI TOÁN LIÊN QUAN ĐẾN TẬP RÚT GỌN TRÊN BẢNG QUYẾT ĐỊNH Tập rút gọn định nghĩa như trên còn gọi là tập rút gọn Pawlak. Ký hiệu PRED (C ) là họ tất cả các tập rút gọn
+của C.
+Cho R ={a1,...,an} là tập hữu hạn, khác rỗng các thuộc tính, mỗi thuộc tính ai có miền giá trị là D(ai ).
+Quan hệ r trên R là tập các bộ {h,...,h }với h :R→ ∪ D(a),1≤ j≤m là một hàm sao cho 1 m j ai∈R i
+ hj (ai )∈D(ai ).
+Cho r ={h ,...,h }là một quan hệ trên tập thuộc tính R ={a ,...,a }. Phụ thuộc hàm (PTH) trên R là một
+1m 1n
+dãy ký tự có dạng A→ B với A, B ⊆ R. PTH A→ B thỏa mãn quan hệ r trên R nếu
+∀h,h∈r (∀a∈A)h(a)=h(a)⇒(∀b∈B)h(b)=h(b) .Đặt F = (A,B):A,B⊆R,A→B là (ij)((ij)(ij))r{ }
+họ đầy đủ các PTH thỏa mãn quan hệ r. Ký hiệu P(R) là tập các tập con của R. Cho F = P(R)×P(R). Ta nói rằng F là một họ f trên R nếu với mọi A,B,C,D ⊆ R
+(1) (A,A)∈F.
+(2) (A,B)∈F,(B,C)∈F ⇒(A,C)∈F.
+(3) (A,B)∈F,A⊆C,D⊆B⇒(C,D)∈F.
+(4) (A,B)∈F,(C,D)∈F ⇒(A∪C,B∪D)∈F.
+RõrànglàFr làmộthọftrênR.NếuFlàmộthọftrênRthìcómộtquanhệrtrênRsaochoFr =F.Kýhiệu
+F+ là tập tất cả các PTH được dẫn xuất từ F bằng việc áp dụng các quy tắc (1)−(4).
+Sơ đồ quan hệ (SĐQH) s là một cặp < R, F > với R là tập thuộc tính và F là tập các phụ thuộc hàm trên R. Ký
+hiệu A+ = a:A→{a}∈F+ , A+ được gọi là bao đóng của A trên s. Dễ thấy A→B∈F+ khi và chỉ khi {}
+B⊆ A+ .Tươngtựkýhiệu A+ = a:A→{a}∈F+ , A+ đượcgọilàbaođóngcủaAtrênquanhệr. r{}r
+Cho s=<R,F> là SĐQH trên R, a∈R. Đặt Ks = A⊆R:A→{a},∃B: B→{a}(B⊂A) . Khi đó, Ks
+{ ()}
+được gọi là họ các tập tối thiểu của thuộc tính a trên s. Tương tự, cho r là một quan hệ trên R và a∈R. Đặt
+a
+a
+Kr = A⊆R:A→{a},∃B: B→{a}(B⊂A).Khiđó,Kr đượcgọilàhọcáctậptốithiểucủathuộc
+{ ()}
+tính a trên r.
+Gọi K ⊆P(R)làmộthệSpernertrênRnếuvớimọi A,B∈K kéotheo A⊄B.Dễthấy Kas,Kar làcác
+hệ Sperner trên R. Với tập K là một hệ Sperner trên R, ta định nghĩa tập K −1 như sau:
+K−1 ={A⊂R:(B∈K)⇒(B⊄A)}vànếu(A⊂C)⇒(∃B∈K)(B⊆C)
+Dễ thấy K −1 cũng là một hệ Sperner trên R. Nếu K là một hệ Sperner trên R đóng vai trò là tập các khóa tối thiểu của quan hệ r (hoặc SĐQH s) thì K −1 là họ tất cả các tập không phải khóa lớn nhất của r (hoặc của s), gọi là tập
+a
+a
+các phản khóa. Nếu K là một hệ Sperner trên R đóng vai trò là họ các tập tối thiểu của thuộc tính a trên r (hoặc trên s),hay K =Kr (hoặc K =Ks ),thì K−1 = Kr −1 (hoặc K−1 = Ks −1) làhọtấtcảcáctậplớnnhấtkhông
+aa{a}{a} phải là tập tối thiểu của thuộc tính a, được định nghĩa như sau [1] :
+r−1 + + K = A⊆R:A→{a}∉F ,A⊂B⇒B→{a}∈F ,
+{a}{ r r} s−1 + +
+K = A⊆R:A→{a}∉F ,A⊂B⇒B→{a}∈F . {a}{ }
+
+Nguyễn Ngọc Cương, Vũ Đức Thi
+757
+ II. KẾT QUẢ
+Trong các bài toán thực tế, bảng quyết định thường chứa các đối tượng không nhất quán (là các đối tượng bằng nhau trên tập thuộc tính điều kiện nhưng khác nhau trên tập thuộc tính quyết định), gọi là bảng quyết định không nhất quán. Tuy nhiên, tùy thuộc vào lớp bài toán cần giải quyết mà ta có thể chuyển bảng quyết định không nhất quán về bảng quyết định nhất quán qua bước tiền xử lý số liệu bằng cách loại bỏ các đối tượng không nhất quán.
+Bổ đề 2.1. {4] Cho bảng quyết định nhất quánDS= U,C∪{d},V,f với C={c,c,...,c},
+() Xétquanhệ r={u1,u2,...,um}trêntậpthuộctính R=C∪{d}.
+12n
+U ={u1,u2,...,um}.
+ĐặtE = E :1≤i<j≤m với E = a∈R:a(u)=a u
+r {ij } ij { i (j)} Đặt M = A∈E :d∉A,∃B∈E :d∉B,A⊂B .
+Bổ đề 2.2. Cho trước bảng quyết định DS = (U, C                                               {d}, V, f) thì (Kdr) -1 là hệ Sperner trên C. Ngược lại nếu
+KlàhệSpernertrênCthì tồntạimộtbảngquyếtđịnhnhấtquánDS=(U,C                                               {d},V,f)để K=(Kdr)-1
+Chứng minh
+d
+{
+rr r−1 r
+}
+Thì Md =(Kd ) .Ởđây Kd làhọcáctậptốithiểucủathuộctính{d}trênquanhệr
+r−1 + + Theođịnhnghĩa K = A⊆R:A→{a}∉F ,A⊂B⇒B→{a}∈F .Đương
+{a}{ r r}
+nhiên (Kdr) -1 là hệ Sperner trên C. Ngược lại, nếu K là hệ Sperner trên C.
+GiảsửK= {A1,...,Am }.ChúngtaxâydựngbảngquyếtđịnhDS=(U,C                                           {d},V,f)nhưsau:
+U={u0,u1,...,um}với mọic                 C:c(u0)=0vàd(u0)=0.Vớimọii,i=1,...mvàclàphầntửcủaC.Chúng tađặtc(ui)=0nếuc                 Ai.Ngượclạic(ui)=i.Đặtd(ui)=i.VớiR= C                                           {d}.
+ĐặtE = E :1≤i<j≤m với E = a∈R:a(u)=a u
+r {ij } ij { i (j)}
+Đặt M = A∈E :d∉A,∃B∈E :d∉B,A⊂B .
+d
+{
+rr
+}
+Cóthểthấy M ={A ,...,A }.TheoBổđề2,1,tacóM =(K r)-1 Nhưvậy d1m dd.
+r -1 K=(Kd) .
+Bổ đề 2.3. .
+Giảsử K={K1,K2,....,Kt }làmộthệSpernertrênC.Chúngtaxâysơđồquanhệ sd =<R,F>,ởđâyR=C
+Ud,F={Ki → {d}:i=1,...,t}.Khiđó s
+K= Kd – {d} Chứng minh
+1) Với K ∈ K ta có K→{d},K≠{d}và vì K là hệ Sperner nên không tồn tại K'⊂K sao cho s
+K '→{d}. Do đó, theo định nghĩa K là một tập tối thiểu của thuộc tính {d}trên sd , nghĩa là K ∈Kd −{d}. s
+2) Ngược lại, với K∈Kd −{d}ta có K→{d},K≠{d}và không tồn tại K'⊂K sao cho K ' → {d }.
+DễthấyvớimọiKi làphầntửcủahệSpernerKtacó K⊄Ki .
+
+758 VỀ ĐỘ PHỨC TẠP TÍNH TOÁN CỦA MỘT BÀI TOÁN LIÊN QUAN ĐẾN TẬP RÚT GỌN TRÊN BẢNG QUYẾT ĐỊNH Vìnếu K⊂Ki thì theođịnhnghĩasơđồquanhệsd,Kkhôngxácđịnhhàmvới{d}
+Hơnnữa,vớimọi Ki làphầntửcủahệSpernerKchúngtacóthểthấyKi khônglàtậpconthựcsựcủaK.
+Vì nếu Ki ⊂ K thì K không phải là một tập tối thiểu của thuộc tính {d}trên sd . Từ đó suy ra T = { K, K1, ...,
+Kt }làhệSpernertrênC.TheođịnhnghĩabaođóngcủatậpKtrênsơđồquanhệsd tacó K+ =K.CónghĩalàKkhông xác định hàm với {d}. Điều này trái với K là một tập tối thiểu sơ đồ quan hệ sd. Vậy K là phần tử của hệ Sperner K
+s Từ1)và2) chúngtacóK=Kd –{d}
+Chúng ta gọi một bài toán A là co-NP-đầy đủ nếu bài toán phủ định A là NP - đầy đủ.
+Chúng ta biết rằng [1] bài toán phần bù giới hạn các tập con (Subset delimiter complementarity – SDC) sau đây là co – NP – đầy đủ: Cho một tập hữu hạn T, hai họ P = { P1, ... , Pn}, Q = {Q1, ... ,Qm} là các tập con của T. Kiểm tra xem với mọi A ⊆ T có tồn tại Pi để Pi ⊆ A hoặc có Qj để A ⊆ Qj với mọi i và với mọi j . Trong [1] cũng chỉ ra rằng nếu Q là một hệ Sperner thì vấn đề trên vẫn là co-NP- đầy đủ
+Chúng ta sẽ trình bày về một bài toán co-NP- đầy đủ liên quan đến các tập rút gọn trên bảng quyết định.
+Đinh nghĩa 2.4. Chúng ta gọi A là tập tựa rút gọn trên bảng quyết dịnh DS với tập thuộc tính C U {d} và d là thuộc tính quyết định nếu A chứa một tập rút gọn nào đó. Tương tự chúng ta gọi A là tập tựa tối thiểu của thuộc tính d
+trênsơđồquanhệs=<CU{d},F>nếuAchứamộttậptốithiểukhôngtầmthườngBcủathuộctínhd.Ởđây B
+s
+Kd – {d}.
+Gọi Qd là tập tất cả các tập tựa rút gọn của bảng quyết định DS với d là thuộc tính quyết định, Pd là tập tất cả các tập tựa tối thiểu của thuộc tính d trên s. Khi đó bài toán xác định Qd có là tập con của Pd hay không là co-NP - đầy đủ.
+Địnhlí2.5. Vấnđềsauđâylàco-NP-đầyđủ
+ChotrướcbảngquyếtdịnhDSvớitậpthuộctínhCU{d}vàdlà thuộctínhquyếtđịnh vàsơđồquanhệs=< CU{d},F>kiểmtraxemQd cólàtậpconcủaPd haykhông.Cónghĩarằngmỗitậptựarútgọn củaDScólàtậptựa tối tiểu của thuộc tính d trên s hay không.
+Chứng minh
+ĐốivớimỗiA ⊆ R=CU{d}ChúngtakiểmtrarằngAlàhoặckhônglàmộttựarútgọncủaDSbằngmột
+thuật toán đa thức. Bỏi một thuật toán tìm bao đóng A+ và định nghĩa tựa tối thiểu của thuộc tính d trên sơ đồ quan hệ, chúng ta cũng có thể kiểm tra trong thời gian đa thức A là hoặc không là tập tựa tối thiểu của d trên s. Do đó, chúng
+ta chọn tùy ý một tập con A của R sao cho A là tựa rút gọn của DS nhưng không là tựa tối thiểu của s. Hiển nhiên thuật toán này là một thuật toán bất định đa thức. Như vậy, vấn đề của chúng ta thuộc co – NP. Bây giờ chúng ta khảo sát
+vấnđềđượcnêuraở[1]vớitậpTvàhayhọP1 ,P2 ,...,Pn vàQ1 ,Q2 ,...,Qm ởđâytậpQlàhệSpernertrênT. Ký pháp P’ = { P i ∈ P: Không có P j để P j là tập con thực sự của P i , i = 1, ... n và j = 1, 2, ... , n}
+Rõ ràng rằng P’ là tập tất cả các phần tử nhỏ nhất của P và P’ là hệ Sperner trên T. Từ P chúng ta có thể tính P’ trong thời gian đa thức với kích thước của P và T. Dễ thấy rằng {T,P’,Q} là một thể hiện tương đương của {T,P,Q}. Từ đó chúng ta có thể giả thiết rằng có P là một hệ Sperner trên T. Chúng ta có thể chứng minh rằng bài toán SDC được dẫn về bài toán của chúng ta bằng một thuật toán thời gian đa thức.
+ĐặtR=TUd,s=<R,F>,ởđâyF={P1 → d,...,Pn → d}
+Chúng ta xây dựng bảng quyết định DS = ( U, T                                               {d}, V, f) như sau:
+U={u0,u1,...,um}với mọic                   T:c(u0)=0vàd(u0)=0.Vớimọii,i=1,...mvàclàphầntửcủaT.Chúngta đặt c(ui) = 0 nếu c                   Qi. Ngược lại c(ui) = i. Đặt d(ui) = i.
+          Rõràngrvàsđượcxâydựngtrongthờigianđathứctheo T và P , Q . s
+TheoBổđề2.3,chúngtacó P=Kd –{d}.DođịnhnghĩacủatậptựatốithiểuAtheothuộctínhdtrênsơđồ quanhệsđềutồntại Pi saochoPi ⊆ A,ởđây1 ≤ i ≤ n. TheoBổđề2.2,chúngtacóQ=(Kdr)-1 CónghĩalàQ là tập các phản khóa của bảng quyết định DS. Do định nghĩa tập phản khóa của DS, chúng ta thấy A là tập tựa rút gọn của DS khi và chỉ khi nếu đối với mọi i = 1, ... , m ta có A không là tập con của Qi.
+Gọi Qd là tập tất cả các tập tựa rút gọn của bảng quyết định DS với d là thuộc tính quyết định, Pd là tập tất cả các tập tựa tối thiểu của thuộc tính d trên s. Chúng ta có thể thấy
+
+Nguyễn Ngọc Cương, Vũ Đức Thi 759
+ Qd ⊆ Pd khi và chỉ khi với mỗi A ⊆ T và với mọi i = 1, ... , m và A không là tập con của Q i thì tồn tại P j saochoP j ⊆ A.TừđóchúngtathấyrằngvấnđềSDCđượcdẫnvềbàitoáncủachúngtabằngmộtthuậttoáncóthời gian tính toán là đa thức. Kết quả đã được chứng minh xong
+III. TÀI LIỆU THAM KHẢO
+[1] Gottlob G. Libkin L. Investigation on Armstrong relations dependency inference and excluded functional dependencies. Acta Cybernetica (1990), pp. 385-402
+[2] Demetrovics J. and Thi V.D. (1995), “Some remarks on generating Armstrong and inferring functional dependencies relation”, Acta Cybernetica 12, pp. 167-180.
+[3] Nguyen Long Giang, Vu Duc Thi (2011), “Some Problems Concerning Condition Attributes and Reducts in Decision Tables”, Proceeding of the Fifth National Symposium “Fundamental and Applied Information Technology Research” (FAIR), Bien Hoa, Dong Nai, pp. 142-152.
+[4] Nguyễn Long Giang, Vũ Đức Thi (2011), “Thuật toán tìm tất cả các rút gọn trong bảng quyết định”, Tạp chí Tin học và Điều khiển học, T.27, S.3, tr. 199-205.
+[5] Pawlak Z. (1991), “Rough sets: Theoretical Aspects of Reasoning About Data”, Kluwer Academic Publishers.
