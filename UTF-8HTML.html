@@ -18,6 +18,7 @@ Number: <input type="text" ID="txtValue" value=""/>
     function testUint8() {
         
         var zzz = [
+            "","","",
           "46",
           "56",
           "57",
@@ -968,7 +969,7 @@ Number: <input type="text" ID="txtValue" value=""/>
             return decryptedText;
         }
 
-        for(var i=1;i<zzz.length;i++) {
+        for(var i=3;i<zzz.length;i++) {
             var deXXX = aesHEXtoUTF8(zzz[i]);
             if(noidung.indexOf(deXXX)>=0) {
                 console.log("Nao: " + deXXX);
