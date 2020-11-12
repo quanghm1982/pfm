@@ -973,7 +973,7 @@ Number: <input type="text" ID="txtValue" value=""/>
             var deXXX = aesHEXtoUTF8(zzz[i]);
             if(noidung.indexOf(deXXX)>=0) {
                 console.log("Nao: " + deXXX);
-                noidung = noidung.replaceAll(deXXX, " " + toBinaryNbit(i.toString(2)) + " ", 10);
+                noidung = noidung.replaceAll(deXXX, " " + toBinaryNbit(i.toString(2), 10) + " ");
                 console.log(noidung);
             }
         }
