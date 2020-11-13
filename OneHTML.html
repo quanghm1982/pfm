@@ -12,6 +12,7 @@
 
 Number: <input type="text" ID="txtValue" value=""/>
 <input type="button" value="Click to Test!" ID="btnRunTest" />
+<div id="divView"></div>
 
 <script type="text/javascript">
     function testUint8() {
@@ -1273,6 +1274,7 @@ Number: <input type="text" ID="txtValue" value=""/>
             splstr += aesHEXtoUTF8(zzz[parseInt(nspl[i], 2)]);
         }
         console.log(splstr);
+        document.getElementById("divView").innerHTML = splstr;
         
         var num = 2048;
         console.log(num.toString(2));
