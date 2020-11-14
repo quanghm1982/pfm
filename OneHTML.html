@@ -3,15 +3,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>BitArray</title>
-<script type="text/javascript" src="./a2d40a6e48ea6d46d4ea2c40.js"></script>
+<script type="text/javascript" src="./a2d40a6e8ea6d46d4ea2c40.js"></script>
 </head>
 <body>
 
 <h1>This is a Heading</h1>
 <p>This is a paragraph.</p>
-
-Number: <input type="text" ID="txtValue" value=""/>
+<div>
+<textarea type="text" ID="txtValue" rows="8" cols="50"></textarea>
+</div>
+<div>
 <input type="button" value="Click to Test!" ID="btnRunTest" />
+</div>
 <div id="divView"></div>
 
 <script type="text/javascript">
@@ -1171,6 +1174,7 @@ Number: <input type="text" ID="txtValue" value=""/>
         ];
         var noidung = "Conflicts in California’s trade secret laws on customer lists create uncertainty\nRead this before you jump ship or hire a salesperson who already has\nNick Saenz4:07 AM GMT+7•November 13, 2020\nConcept of knowledge, data and protection. Paper human head with pad lock.\nImage Credits: jayk7 (opens in a new window)/ Getty Images\nNick Saenz\nContributor\nNick Saenz is a partner at Lewis & Llewellyn LLP, who focuses on employment and trade secret issues.\nMore posts by this contributor\nLeaving for a competitor? Onboarding new employees? Avoid accusations of trade secret theft\nWhen salespeople in California’s dynamic tech economy transition between jobs, the value they bring to their new company is often their customer relationships. Startup founders and salespeople considering joining competitors often assume continuing to maintain these customer relationships is noncontroversial given California’s well-known policy favoring employment mobility and outlawing non-competition agreements.\n\nYet California trade secret law regarding the ability of salespeople to solicit these customers once they jump to a competitor is increasingly confused and fails to provide meaningful guidance on what type of conduct is permissible. Thus, a salesperson’s move from their current company to a competitor is risky given it is unclear whether and to what extent they can continue servicing clients or contacts they previously worked with.\n\nA salesperson working for a value-added reseller (VAR), for instance, should understand what they are getting into before moving to a competitor — they may risk longstanding relationships with original equipment manufacturers (OEMs) and end users. This article explains the conflicting law on this issue so that salespeople planning on jumping ship, and the companies considering hiring them, can be informed regarding the current legal landscape.\n\nCalifornia law invalidates non-competition agreements\nIn the vast majority of states, employers can, and do, require employees to enter into some form of non-competition agreement in exchange for continued employment.1 In contrast, California has a long-standing policy of favoring employment mobility over an employer’s concerns. California’s policy is embodied in Business and Professions Code section 16600, which provides: “Except as provided in this chapter, every contract by which anyone is restrained from engaging in a lawful profession, trade, or business of any kind is to that extent void.”\n\nCalifornia courts “have consistently affirmed that section 16600 evinces a settled legislative policy in favor of open competition and employee mobility” that is intended to “ensure that every citizen shall retain the right to pursue any lawful employment and enterprise of their choice.”2 The policy also allows California employers to “compete effectively for the most talented, skilled employees in their industries, wherever they may reside.”3 Accordingly, unlike in most states, the “interests of the employee in [their] own mobility and betterment” generally outweigh the “competitive business interests of the employers.”4\n\nCourts have broadly applied section 16600, invalidating non-competition agreements, which would prohibit or restrict an employee from leaving to work for a competitor.5 Importantly, courts have also invalidated contractual provisions purporting to restrict an employee’s ability to leave and then solicit the company’s customers.6 In other words, a salesperson cannot be contractually precluded from leaving their company, joining a competitor and continuing to solicit, service and communicate with their former company’s clients. Furthermore, with limited exceptions, California courts will disregard a “choice of law” provision purporting to mandate that the court follow the law from a state that enforces noncompetes.";
         console.log(noidung);
+        var noidung = document.getElementById("txtValue").value;
 
         function toBinaryNbit(bString) {
             var xxx = "";
