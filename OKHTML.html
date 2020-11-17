@@ -133,6 +133,8 @@
         
 
 function renameKey ( obj, oldKey, newKey ) {
+	//var uint8array = new TextEncoder("utf-8").encode("¢");
+	//var string = new TextDecoder("utf-8").decode(uint8array);
     if(obj.hasOwnProperty(oldKey))
     {
         if(obj[oldKey].constructor === "test".constructor) {
@@ -140,7 +142,7 @@ function renameKey ( obj, oldKey, newKey ) {
                 obj[newKey] = obj[oldKey];
             } else {
                 //obj[newKey] = Array.from(f2c4d601a7b46d4ea6d4d1a7e4d46d('' + obj[oldKey]));
-		obj[newKey] = f2c4d601a7b46d4ea6d4d1a7e4d46d('' + obj[oldKey]);
+		obj[newKey] = new TextDecoder("utf-8").decode(f2c4d601a7b46d4ea6d4d1a7e4d46d('' + obj[oldKey]));
             }
         }
         if(obj[oldKey].constructor === [].constructor) {
