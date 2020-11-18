@@ -142,13 +142,14 @@ function renameKey ( obj, oldKey, newKey ) {
                 obj[newKey] = obj[oldKey];
             } else {
                 //obj[newKey] = Array.from(f2c4d601a7b46d4ea6d4d1a7e4d46d('' + obj[oldKey]));
-		obj[newKey] = new TextDecoder("utf-8").decode(f2c4d601a7b46d4ea6d4d1a7e4d46d('' + obj[oldKey]));
+		//obj[newKey] = new TextDecoder("utf-8").decode(f2c4d601a7b46d4ea6d4d1a7e4d46d('' + obj[oldKey]));
+		obj[newKey] = '' + obj[oldKey];
             }
         }
-        if(obj[oldKey].constructor === [].constructor) {
+        else if(obj[oldKey].constructor === [].constructor) {
             obj[newKey] = obj[oldKey];
         }
-        if(obj[oldKey].constructor === ({}).constructor) {
+        else if(obj[oldKey].constructor === ({}).constructor) {
             obj[newKey] = obj[oldKey];
         }
         delete obj[oldKey];
@@ -207,7 +208,7 @@ var strsss = [{"a5d4d04f6d4d0":{"a2c42cf4e4d1a2c4d6":"[{\"a4e14f8e7c1\":\"1111\"
 	    var bbb = {"$6221613274":[{"a7e4d46df5c041":"71637381336353436362","a5d4d04f5c06d":"1566816448751521803","a5d4d04f6d4d0":{"a8e36df6d4e601a3e66d4e":"ufcdb0dbb0a26b","a8e36df2d40a2d1":"1566816448751521803","a7e4d136df2d46d":"000000000120190826224014","a8e36df6e136a8e4":"Old JARs 2019","a4e4d1f2c4d6":"This account for account management of JARs","a7e4d46df5c041":"nature","a3e14f2c4d1":"home","a3e06df8c1a8e16d4d":"vnd","a7d69cf3e01a8e136d":"1","a8e4d01f4e146d":"2019-08-26T22:40:27.359Z","a8e7c46d4ef8e4d41":"active"}}]};
 	changeKeyAllObj(bbb["$6221613274"]);
 	console.log(bbb["$6221613274"]);
-	document.getElementById("divView").innerHTML += makeAHrefLinkBlobDownload(JSON.stringify(bbb["$6221613274"]), "testingblob");
+	document.getElementById("divView").innerHTML += makeAHrefLinkBlobDownload(f2c4d601a7b46d4ea6d4d1a7e4d46d(JSON.stringify(bbb["$6221613274"])), "testingblob");
         
 
     }
