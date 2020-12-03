@@ -47,7 +47,7 @@
 		}
 
         function make8bitBinaryFromNbit(totalString) {
-            var xxx = totalString.replaceAll(" ", "");
+            var xxx = totalString.replace(/\s/g, "");
             var iCount = xxx.length;
             while(iCount >= 8) {
                 iCount = iCount - 8;
@@ -100,7 +100,11 @@
             var deXXX = aesHEXtoUTF8(zzz[i]);
             if(noidungmoi.indexOf(deXXX)>=0) {
             	
-                noidungmoi = noidungmoi.replaceAll(deXXX, "" + toBinaryNbit(i.toString(2)));
+                if(i>=211) {
+                    noidungmoi = noidungmoi.replace(new RegExp("\\" + deXXX, "g"), "" + toBinaryNbit(i.toString(2)));
+                } else {
+                    noidungmoi = noidungmoi.replace(new RegExp(deXXX, "g"), "" + toBinaryNbit(i.toString(2)));
+                }
             }
             
         }
