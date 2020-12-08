@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>BitArray</title>
+</head>
+<body>
+
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+<textarea type="text" ID="txtValue" rows="8" cols="50"></textarea>
+</div>
+<div>
+<input type="button" value="Click to Test!" ID="btnRunTest" />
+</div>
+<div id="divView"></div>
+
+
+<script type="text/javascript">
+    //https://docs.github.com/en/free-pro-team@latest/rest/overview/media-types#request-specific-version
+    function testUint8() {
+        var url = "https://api.github.com/repos/quanghm1982/pfm/contents/textfileaaa";
+        var data = {
+            "message": "my commit message",
+            "committer": {
+                "name": "quanghm1982",
+                "email": "quanghm1982@gmail.com"
+            },
+            "content": "bXkgbmV3IGZpbGUgY29udGVudHM="
+        };
+        var json = JSON.stringify(data);
+        var xhr = new XMLHttpRequest();
+        xhr.open("PUT", url, true);
+        xhr.setRequestHeader("Content-type","application/json; charset=utf-8");
+        xhr.setRequestHeader("Authorization", "token b91e0b57482cab8bdbcb7d7e44d224d1942d0681");
+        xhr.setRequestHeader("Accept", "application/vnd.github.v3+json");
+        xhr.onload = function () {
+            var users = JSON.parse(xhr.responseText);
+            if (xhr.readyState == 4 && xhr.status == "200") {
+                console.table(users);
+            } else {
+                console.error(users);
+            }
+        }
+        xhr.send(json);
+    }
+
+    function hexStringtoBlob(s) {
+        const base = 16
+        let a = s
+            .replace(/../g, '$&_')
+            .slice (0, -1)
+            .split ('_')
+            .map (
+                (x) => parseInt (x, base)
+            );
+        console.log(a);
+    }
+
+    document.getElementById("btnRunTest").onclick = function(e) { testUint8(); };
+</script>
+</body>
+</html>
