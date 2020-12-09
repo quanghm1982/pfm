@@ -175,7 +175,6 @@
 						array_change.push(xxx);
 					}
 					_b8ea8e4d138ef5c47ea6e46.a7b7d5cf2c7b3e5c = array_change;
-					console.log(_b8ea8e4d138ef5c47ea6e46.a7b7d5cf2c7b3e5c);
 					if(typeof _b2ca4d46ef4e01a5c41 === "function") {
 						_b2ca4d46ef4e01a5c41(array_change);
 					}
