@@ -1176,7 +1176,7 @@
 						if( b2ca3e01a8e606d4ea4e02c["8"].hasOwnProperty(b2c8e36da6e46d4e) && (b2c8e36da6e46d4e!=="notvalid") && (b2ca3e01a8e606d4ea4e02c["8"][b2c8e36da6e46d4e]!=="") && (b2ca3e01a8e606d4ea4e02c["8"][b2c8e36da6e46d4e]!==undefined)) {
 							b2ca6e46d4ea7e4d46da8e6 = b2ca3e01a8e606d4ea4e02c["8"][b2c8e36da6e46d4e];
 							_b8ea8e4d138ef5c47ea6e46.f8e4d36ea8c40f6e46d4ea3e01f8e606d4e(b2ca3e01a8e606d4ea2c601, b2ca6e46d4ea7e4d46da8e6, "", "0", _b8ea8e4d138ef5c47ea6e46.f5c49ca3e01f8e606d4ea5e7b06df2c601a2c66d4e, _b8ea8e4d138ef5c47ea6e46.f7b0a7b46d4df5e7b06df3e01a8e606d4e, _b8ea8e4d138ef5c47ea6e46.f3e01a8e606d4ef8e16ea5d136ef6d4d1a7e4d46d);
-							b2ca2d136da3e36e += (b2ca3e01a8e606d4ea4e02c["8"]["16"].toLowerCase().replace(/\s/g,"")==="transferincome")? b2ca3e01a8e606d4ea4e02c["8"]["2"] : ((b2ca3e01a8e606d4ea4e02c["8"]["16"].toLowerCase().replace(/\s/g,"")==="transferoutcome")? b2ca3e01a8e606d4ea4e02c["8"]["1"] : 0);
+							b2ca2d136da3e36e += (b2ca3e01a8e606d4ea4e02c["8"]["16"].toLowerCase().replace(/\s/g,"")==="transferincome")? parseInt(b2ca3e01a8e606d4ea4e02c["8"]["2"]) : ((b2ca3e01a8e606d4ea4e02c["8"]["16"].toLowerCase().replace(/\s/g,"")==="transferoutcome")? parseInt(b2ca3e01a8e606d4ea4e02c["8"]["1"]) : 0);
 						} else if(b2c8e36da6e46d4e!=="notvalid") {
 							b2ca6e46d4ea7e4d46da8e6.push(b2ca3e01a8e606d4ea2c601);
 						}
