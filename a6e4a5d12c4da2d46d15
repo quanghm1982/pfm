@@ -1427,23 +1427,7 @@
 					"message": "cap nhat " + JSON.stringify(date).replace(/"/g,""),
 					"content": "" + b64data
 				};
-				// $.ajax({
-				// 	type: "PUT",
-				// 	dataType: "application/json",
-				// 	url: "https://api.github.com/repos/quanghm1982/pfm/contents/script/a3e4a8e4" + jsondate,
-				// 	beforeSend: function(xhr) {
-				// 		// xhr.setRequestHeader("Authorization", "Basic " + btoa("quanghm1982:qgitHub13@"));
-				// 		xhr.setRequestHeader("Authorization", "token b91e0b57482cab8bdbcb7d7e44d224d1942d0681");
-				// 	},
-				// 	data: JSON.stringify(objectData),
-				// 	success: function(result_blob) {
-				// 		console.log(result_blob);
-				// 		f7ea5d38ef8e4d62ca6e08ef4d46d4da3e06d4e(function() {
-				// 			f4da4d46d4df3e06d4ea4d136df8e4d1a8c132c();
-				// 		});
-				// 	}
-				// });
-				var url = "https://api.github.com/repos/quanghm1982/pfm/contents/a3e48e4" + JSON.stringify(date).replace(/"/g,"").substring(0,10).replace(/-/g,"");
+				var url = "https://api.github.com/repos/" + $("#_819281743221732342").val() + "/contents/a3e48e4" + JSON.stringify(date).replace(/"/g,"").substring(0,10).replace(/-/g,"");
 				var data = {
 					"message": "cap nhat " + JSON.stringify(date).replace(/"/g,""),
 					"committer": {
