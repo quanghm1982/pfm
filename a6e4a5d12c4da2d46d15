@@ -1444,7 +1444,7 @@
 					if (xhr.readyState == 4 && xhr.status == "200") {
 						console("Save success!");
 					} else {
-						console(xhr.status);
+						console("Error:", url, "===)))", xhr.status);
 					}
 				}
 				xhr.send(json);
