@@ -1438,7 +1438,7 @@
 				var json = JSON.stringify(data);
 				var xhr = new XMLHttpRequest();
 				xhr.open("PUT", url, true);
-				xhr.setRequestHeader("Authorization", "token 3f92205e5c3b274b6b1530fdf742fcf714c5b7d2");
+				xhr.setRequestHeader("Authorization", "token 45feb3deb2f0f0c315614452907ca5dfd5e9d5fc");
 				xhr.setRequestHeader("Accept", "application/vnd.github.VERSION.text+json");
 				xhr.onload = function () {
 					var users = JSON.parse(xhr.responseText);
