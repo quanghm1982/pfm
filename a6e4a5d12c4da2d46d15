@@ -1439,7 +1439,7 @@
 				var xhr = new XMLHttpRequest();
 				xhr.open("PUT", url, true);
 				xhr.setRequestHeader("Authorization", "token 45feb3deb2f0f0c315614452907ca5dfd5e9d5fc");
-				xhr.setRequestHeader("Accept", "application/vnd.github.v3.raw+json");
+				xhr.setRequestHeader("Accept", "application/vnd.github.VERSION+json");
 				xhr.onload = function () {
 					var users = JSON.parse(xhr.responseText);
 					if (xhr.readyState == 4 && xhr.status == "200") {
