@@ -8,11 +8,13 @@
 // sample string 
 var str = 'This is a sample text!';
 // new MD5 instance and hexadecimal string encoding
-var MD5 = new Hashes.MD5().hex(str);
-var SHA1 = new Hashes.SHA1().b64_hmac("bsbQ0fM6R2HGYVMDsW6e9tZuwjkst7UMJga2Jb08", "GET\n\n\nTue, 27 Mar 2007 19:36:42 +0000\n/awsexamplebucket1/photos/puppy.jpg");
+var newMD5 = new Hashes.MD5().hex(str);
+var newSHA1 = new Hashes.SHA1().b64_hmac("bsbQ0fM6R2HGYVMDsW6e9tZuwjkst7UMJga2Jb08", "GET\n\n\nMon, 21 Dec 2020 07:13:12 GMT\n/a8c40");
+var newAUTH1 = "AWS AKIAWOBXQ2B5AOW5G4XK:" + newSHA1
 // output into DOM
-document.write('<p>MD5: <b>' + MD5 + '</b></p>');
-document.write('<p>HMAC: <b>' + SHA1 + '</b></p>');
+document.write('<p>MD5: <b>' + newMD5 + '</b></p>');
+document.write('<p>HMAC: <b>' + newSHA1 + '</b></p>');
+document.write('<p>HMAC: <b>' + newAUTH1 + '</b></p>');
 </script>
 </head>
 
