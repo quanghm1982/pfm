@@ -43,7 +43,7 @@ echo $signingKey
 
 ```bash shell
 #openssl dgst -sha256 a1-put-aws.creq
-#./a-signing-key.sh bsbQ0fM6R2HGYVMDsW6e9tZuwjkst7UMJga2Jb08 20201222 us-east-2 s3
+#./a-signing-key.sh bsbQ0fM6R2HGYVMDsW + 'yyyy' + Zuwjkst7UMJga2Jb08 20201222 us-east-2 s3
 # openssl dgst -sha256 \
 -mac HMAC \
 -macopt hexkey:25922f37739877f19cb060079619f49ec2523243230864a1b686488bd9ea3493 \
