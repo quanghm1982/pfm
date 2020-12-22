@@ -1,0 +1,25 @@
+<html>
+<head>
+<script type="application/javascript" src="hashes.js"></script>
+<script type="application/javascript">
+// sample string 
+var str = 'This is a sample text!';
+// new MD5 instance and hexadecimal string encoding
+var newMD5 = new Hashes.MD5().hex(str);
+//var strDate = (new Date()).toUTCString().replace(/\sGMT/g," +0000");
+var strDate = (new Date()).toISOString().replace(/[:-]/g,"").substr(0,15) + "Z";
+var newSHA1 = new Hashes.SHA256().b64_hmac("bsbQ0fM6R2HGYVMDsW6e9tZuwjkst7UMJga2Jb08", "PUT\n\application/x-www-form-urlencoded\n" + strDate + "\n/a5c66a8e7c6/hashes.html");
+var newAUTH1 = "AWS AKIAWOBXQ2B5AOW5G4XK:" + newSHA1
+//t = datetime.datetime.utcnow()
+//amzdate = t.strftime('%Y%m%dT%H%M%SZ')
+//amzdate = new Date();
+// output into DOM
+document.write('<p>MD5: <b>' + newMD5 + '</b></p>');
+document.write('<p>HMAC: <b>' + newSHA1 + '</b></p>');
+document.write('<p>DATE: <b>' + strDate + '</b></p>');
+document.write('<p>Authorization: <b>' + newAUTH1 + '</b></p>');
+</script>
+</head>
+<body>
+</body>
+</html>
