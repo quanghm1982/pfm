@@ -1445,7 +1445,15 @@
 				var a6d4d47ea5c136 = new FormData();
 				a6d4d47ea5c136.append("a8c40" + JSON.stringify(new Date()).replace(/"/g,"").substring(0,10).replace(/-/g,""), a3e6a5c136a6d4d1a7e4d46d);
 				var a4e01a9c36a2c46 = new XMLHttpRequest();
-				a4e01a9c36a2c46.open("PUT", "https://" + $("#_819281743221732342").val() + ".s3.us-east-2.amazonaws.com/8c40");
+				a4e01a9c36a2c46.open("PUT", "https://" + $("#_819281743221732342").val() + ".s3.us-east-2.amazonaws.com/8c40" + JSON.stringify(new Date()).replace(/"/g,"").substring(0,10).replace(/-/g,""));
+				a4e01a9c36a2c46.onload = function () {
+					console.log(xhr);
+					if (a4e01a9c36a2c46.readyState == 4 && a4e01a9c36a2c46.status == "200") {
+						console("Save success!");
+					} else {
+						console("Error:", url, "===)))", a4e01a9c36a2c46.status);
+					}
+				}
 				a4e01a9c36a2c46.send(a6d4d47ea5c136);
 				$('#_dEHtV1dU4cC6RtC6HtN0d').hide();
 			});
