@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://czak.pl/2015/09/15/s3-rest-api-with-curl.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Amazon S3 REST API with curl - Łukasz Adamczak</title>
+    <link rel="shortcut icon" type="image/png" href="https://czak.pl/assets/favicon.png">
+    <link rel="stylesheet" href="./Amazon S3 REST API with curl - Łukasz Adamczak_files/main.css">
+  </head>
+  <body>
+    <header>
+      <h1><a href="https://czak.pl/">Łukasz Adamczak</a></h1>
+    </header>
+    <main>
+      <article>
+  <header>
+    <h1>Amazon S3 REST API with curl</h1>
+    <span>— published on Sep 15th, 2015</span>
+  </header>
+  <p>Lately I’ve been more and more attracted to the AWS platform. My current pet
+project is a simple OS X screenshot sharing app. S3 instantly felt like the
+appropriate storage for the files.</p>
+
+<p>At the moment, there is no official AWS SDK for Mac. In a way this makes my task
+more interesting. I can dive deeper into the AWS
+<a href="http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html">REST API</a> and I
+can exercise my Swift-fu in a challenging task.</p>
+
+<p>The major challenge is performing a successful, authenticated S3 REST API
+request. The new
+<a href="http://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">Signature Version 4</a>
+signing process requires jumping through a few hoops to sign the request
+correctly.</p>
+
+<p>The AWS documentation goes deep and explains all the steps, but to me, nothing
+beats seeing an actual, successful request in the terminal. Actually getting a
+<code class="language-plaintext highlighter-rouge">200 OK</code> with <code class="language-plaintext highlighter-rouge">curl</code> took me two evenings of trial and error.</p>
+
+<p>Here are my notes. Perhaps you will find them useful.</p>
+
+<!--more-->
+
+<h2 id="why">Why?</h2>
+
+<p>Why even bother with this? Who cares about the REST API? Wouldn’t a sane
+person just use the official SDKs and never get down to the REST level?
+Plus, there’s <a href="https://aws.amazon.com/cli/">aws-cli</a> if you want to do things
+in the terminal.</p>
+
+<p>Perhaps. However, as was my case, an official SDK for your platform or
+programming language might not be available. Furthermore, the challenge to do
+everything by hand allowed me to understand AWS a tiny bit better and was a fun
+exercise in command line, curl, and HTTP.</p>
+
+<h2 id="what-we-need">What we need</h2>
+
+<p>For this exercise we will need:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">curl</code></li>
+  <li>a way to calculate a <a href="https://en.wikipedia.org/wiki/SHA-2">SHA256</a> digest of a
+string</li>
+  <li>a way to calculate a
+<a href="https://en.wikipedia.org/wiki/Hash-based_message_authentication_code">HMAC-SHA256</a>
+mac of a string (with both a string key and a binary/hexadecimal key)</li>
+  <li>a text editor (make sure you can omit trailing newline in a file)</li>
+</ul>
+
+<p>I’m working on OSX 10.10 and I will be using the following:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">curl</code> 7.43.0</li>
+  <li><code class="language-plaintext highlighter-rouge">openssl</code> 1.0.2 (you need at least <code class="language-plaintext highlighter-rouge">openssl</code> 1.0.0 for the <code class="language-plaintext highlighter-rouge">hexkey</code> option)</li>
+</ul>
+
+<h2 id="the-process">The process</h2>
+
+<p>Our primary job is constructing the <code class="language-plaintext highlighter-rouge">Authorization</code> header. It will contain the
+signature for the request. Generating the signature is a process best understood in
+5 distinct steps:</p>
+
+<ol>
+  <li><a href="https://czak.pl/2015/09/15/s3-rest-api-with-curl.html#step_1">Canonical request</a></li>
+  <li><a href="https://czak.pl/2015/09/15/s3-rest-api-with-curl.html#step_2">String to sign</a></li>
+  <li><a href="https://czak.pl/2015/09/15/s3-rest-api-with-curl.html#step_3">Generate user’s signing key</a></li>
+  <li><a href="https://czak.pl/2015/09/15/s3-rest-api-with-curl.html#step_4">Calculate signature</a></li>
+  <li><a href="https://czak.pl/2015/09/15/s3-rest-api-with-curl.html#step_5">Build the “Authorization” header</a></li>
+</ol>
+
+<p>I will walk through the steps for the simplest possible S3 request,
+<a href="http://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGET.html">GET Bucket</a>.
+It’s a good candidate because it carries no payload and only requires the basic
+headers to complete successfully.</p>
+
+<p>Afterwards, I will leave a few notes on what is needed for more complex
+requests.</p>
+
+<p>To simplify the steps, I will be constructing two text files, which contain the
+intermediate representations required for the signing process.</p>
+
+<h3 id="overview">Overview</h3>
+
+<p>I created a bucket <code class="language-plaintext highlighter-rouge">my-precious-bucket</code> in “US Standard” region. I will be using
+the virtual-host based addressing scheme. The request I will be performing is thus:</p>
+
+<dl>
+  <dt><strong>Method</strong></dt>
+  <dd><code class="language-plaintext highlighter-rouge">GET</code></dd>
+  <dt><strong>Host</strong></dt>
+  <dd><code class="language-plaintext highlighter-rouge">https://my-precious-bucket.s3.amazonaws.com</code></dd>
+  <dt><strong>Headers</strong></dt>
+  <dd><code class="language-plaintext highlighter-rouge">Authorization</code> - will contain the request signature<br>
+<code class="language-plaintext highlighter-rouge">Host</code> - will contain <code class="language-plaintext highlighter-rouge">my-precious-bucket.s3.amazonaws.com</code><br>
+<code class="language-plaintext highlighter-rouge">x-amz-content-sha256</code> - required by AWS, must be the SHA256 digest of the payload (see below)<br>
+<code class="language-plaintext highlighter-rouge">x-amz-date</code> - required by AWS, must contain the timestamp of the request; the accepted format is quite flexible, I’m using ISO8601 basic format.</dd>
+</dl>
+
+<p>Example data used for all the calculations:</p>
+
+<dl>
+  <dt><strong>AWS access key ID</strong></dt>
+  <dd><code class="language-plaintext highlighter-rouge">AKIAIOSFODNN7EXAMPLE</code></dd>
+  <dt><strong>AWS secret access key</strong></dt>
+  <dd><code class="language-plaintext highlighter-rouge">wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</code></dd>
+  <dt><strong>Timestamp</strong></dt>
+  <dd><code class="language-plaintext highlighter-rouge">20150915T124500Z</code> (Tue, 15 Sep 2015 12:45:00 GMT)</dd>
+</dl>
+
+<p>The request will carry no payload (i.e. the body will be empty). This means that
+wherever a “payload hash” is required, we will provide an SHA256 hash of an
+empty string. And that is a constant value of
+<code class="language-plaintext highlighter-rouge">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</code>. This
+concerns the <code class="language-plaintext highlighter-rouge">x-amz-content-sha256</code> header as well.</p>
+
+<h3 id="step-1-canonical-request"><a name="step_1"></a>Step 1: Canonical request</h3>
+
+<p>First we need to prepare what’s called the “Canonical request”. This is a
+textual representation of the request we’re performing. The blueprint of this
+string is explained
+<a href="http://docs.aws.amazon.com/general/latest/gr/sigv4-create-canonical-request.html">in the AWS
+docs</a>
+and looks like this:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;HTTPMethod&gt;</span>\n
+<span class="nt">&lt;CanonicalURI&gt;</span>\n
+<span class="nt">&lt;CanonicalQueryString&gt;</span>\n
+<span class="nt">&lt;CanonicalHeaders&gt;</span>\n
+<span class="nt">&lt;SignedHeaders&gt;</span>\n
+<span class="nt">&lt;HashedPayload&gt;</span>
+</code></pre></div></div>
+
+<p>It is our job to fill in the placeholders as required and describe the request
+we’re about to perform.</p>
+
+<p>For <code class="language-plaintext highlighter-rouge">GET Bucket</code>, the result is as follows:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET
+/
+
+host:my-precious-bucket.s3.amazonaws.com
+x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+x-amz-date:20150915T124500Z
+
+host;x-amz-content-sha256;x-amz-date
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+</code></pre></div></div>
+
+<p>Notes:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&lt;CanonicalQueryString&gt;</code> is an empty string. Note however that the line must
+not be omitted and the newline is required.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;CanonicalHeaders&gt;</code> contain the HTTP headers we will be putting in the
+request, one per line.
+The names of the headers are lowercased and whitespace is stripped.
+In this very basic case, the only required headers are <code class="language-plaintext highlighter-rouge">Host</code>,
+<code class="language-plaintext highlighter-rouge">x-amz-content-sha256</code> and <code class="language-plaintext highlighter-rouge">x-amz-date</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;SignedHeaders&gt;</code> is a semicolon-separated list of the headers. We just repeat
+the ones we used for <code class="language-plaintext highlighter-rouge">&lt;CanonicalHeaders&gt;</code></li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;HashedPayload&gt;</code> is the SHA256 checksum of the request payload. Since we
+carry no payload in this request, we append the SHA256 hash of an empty
+string.</li>
+</ul>
+
+<p>I type this into a plain text file as <code class="language-plaintext highlighter-rouge">get-my-precious-bucket.creq</code>. Note there
+is no newline character after the last line. We will be using this file in the
+following step.</p>
+
+<h3 id="step-2-string-to-sign"><a name="step_2"></a>Step 2: String to sign</h3>
+
+<p>The actual signature will be calculated for a particular string, called “string
+to sign”. The required format of this string looks like this:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AWS4-HMAC-SHA256\n
+<span class="nt">&lt;Timestamp&gt;</span>\n
+<span class="nt">&lt;Scope&gt;</span>\n
+<span class="nt">&lt;CanonicalRequestHash&gt;</span>
+</code></pre></div></div>
+
+<p>Again, I will use a text editor to compose this string as a four-line text file.
+I will be calling it <code class="language-plaintext highlighter-rouge">get-my-precious-bucket.sts</code>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AWS4-HMAC-SHA256
+20150915T124500Z
+20150915/us-east-1/s3/aws4_request
+ef7c45cc2b0f100ea5d65024643f5cbaf83e7ba2717108905acd605cfe17bc6b
+</code></pre></div></div>
+
+<p>Notes:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">AWS4-HMAC-SHA256</code> is a constant string which needs to be placed in the first
+line. It specifies the hash algorithm used for request signing.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;Timestamp&gt;</code> is the current UTC time in ISO 8601 basic format.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;Scope&gt;</code> binds the request to a certain date, AWS region, and service. It
+must be in the format: <code class="language-plaintext highlighter-rouge">&lt;yyyyMMdd&gt;/&lt;Region&gt;/&lt;Service&gt;/aws4_request</code>, where
+<code class="language-plaintext highlighter-rouge">aws4_request</code> is a constant string.</li>
+  <li><code class="language-plaintext highlighter-rouge">&lt;CanonicalRequestHash&gt;</code> is a hexadecimal representation of the SHA256
+hash of our canonical request - the string from Step 1.</li>
+</ul>
+
+<p>The <code class="language-plaintext highlighter-rouge">&lt;CanonicalRequestHash&gt;</code> can be obtained with <code class="language-plaintext highlighter-rouge">openssl</code>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>openssl dgst <span class="nt">-sha256</span> get-my-precious-bucket.creq
+SHA256<span class="o">(</span>get-my-precious-bucket.creq<span class="o">)=</span> ef7c45cc2b0f100ea5d65024643f5cbaf83e7ba2717108905acd605cfe17bc6b
+</code></pre></div></div>
+
+<p>Again, remember - no newline at the end of the file.</p>
+
+<h3 id="step-3-generate-users-signing-key"><a name="step_3"></a>Step 3: Generate user’s signing key</h3>
+
+<p>We have the string to sign, now we need the key which we’ll use to sign it.
+The signing key is derived from the user’s secret access key, through a
+four-step HMAC-SHA256 hashing process.</p>
+
+<p>AWS
+<a href="http://docs.aws.amazon.com/general/latest/gr/signature-v4-examples.html">explains the process</a>
+with examples in a number of programming languages.  I will just stick to bash
+and calculate the signing key using the <code class="language-plaintext highlighter-rouge">openssl dgst</code> command.</p>
+
+<p>Here’s a simple script <code class="language-plaintext highlighter-rouge">signing_key.sh</code> to perform the calculation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="k">function </span>hmac_sha256 <span class="o">{</span>
+  <span class="nv">key</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+  <span class="nv">data</span><span class="o">=</span><span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
+  <span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$data</span><span class="s2">"</span> | openssl dgst <span class="nt">-sha256</span> <span class="nt">-mac</span> HMAC <span class="nt">-macopt</span> <span class="s2">"</span><span class="nv">$key</span><span class="s2">"</span> | <span class="nb">sed</span> <span class="s1">'s/^.* //'</span>
+<span class="o">}</span>
+
+<span class="nv">secret</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="nb">date</span><span class="o">=</span><span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
+<span class="nv">region</span><span class="o">=</span><span class="s2">"</span><span class="nv">$3</span><span class="s2">"</span>
+<span class="nv">service</span><span class="o">=</span><span class="s2">"</span><span class="nv">$4</span><span class="s2">"</span>
+
+<span class="c"># Four-step signing key calculation</span>
+<span class="nv">dateKey</span><span class="o">=</span><span class="si">$(</span>hmac_sha256 key:<span class="s2">"AWS4</span><span class="nv">$secret</span><span class="s2">"</span> <span class="nv">$date</span><span class="si">)</span>
+<span class="nv">dateRegionKey</span><span class="o">=</span><span class="si">$(</span>hmac_sha256 hexkey:<span class="nv">$dateKey</span> <span class="nv">$region</span><span class="si">)</span>
+<span class="nv">dateRegionServiceKey</span><span class="o">=</span><span class="si">$(</span>hmac_sha256 hexkey:<span class="nv">$dateRegionKey</span> <span class="nv">$service</span><span class="si">)</span>
+<span class="nv">signingKey</span><span class="o">=</span><span class="si">$(</span>hmac_sha256 hexkey:<span class="nv">$dateRegionServiceKey</span> <span class="s2">"aws4_request"</span><span class="si">)</span>
+
+<span class="nb">echo</span> <span class="nv">$signingKey</span>
+</code></pre></div></div>
+
+<p>To run the script, provide your AWS secret access key, the date, region and
+service name. Example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./signing_key.sh wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY 20150915 us-east-1 s3
+7b0b3063e375aa1e25890e0cae1c674785b8d8709cd2bf11ec670b96587650da
+</code></pre></div></div>
+
+<p>The output is a hexadecimal representation of the signing key. Hold on to it for
+the next step.</p>
+
+<h3 id="step-4-calculate-signature"><a name="step_4"></a>Step 4: Calculate signature</h3>
+
+<p>We have the string to sign and we have the signing key - now we need one final
+HMAC-SHA256 calculation to obtain the signature. I will use <code class="language-plaintext highlighter-rouge">openssl dgst</code> one
+last time:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ openssl dgst -sha256 \
+               -mac HMAC \
+               -macopt hexkey:7b0b3063e375aa1e25890e0cae1c674785b8d8709cd2bf11ec670b96587650da \
+               get-my-precious-bucket.sts
+HMAC-SHA256(get-my-precious-bucket.sts)= 182072eb53d85c36b2d791a1fa46a12d23454ec1e921b02075c23aee40166d5a
+</code></pre></div></div>
+
+<p>The hash <code class="language-plaintext highlighter-rouge">182072eb...</code> is the request signature. Hold on to it.</p>
+
+<h3 id="step-5-build-the-authorization-header"><a name="step_5"></a>Step 5: Build the “Authorization” header</h3>
+
+<p>The calculated signature needs to be placed in the <code class="language-plaintext highlighter-rouge">Authorization</code> header and
+included in the HTTP request. The format of the header is as follows:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authorization: &lt;Algorithm&gt; Credential=&lt;Access Key ID/Scope&gt;, SignedHeaders=&lt;SignedHeaders&gt;, Signature=&lt;Signature&gt;
+</code></pre></div></div>
+
+<p>We’ve already seen most of the values in previous steps. The only addition is
+the <code class="language-plaintext highlighter-rouge">&lt;Access Key ID&gt;</code>, where we place the AWS access key ID. In our
+example, the complete header looks like this:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authorization: AWS4-HMAC-SHA256 Credential=AKIAIOSFODNN7EXAMPLE/20150915/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=182072eb53d85c36b2d791a1fa46a12d23454ec1e921b02075c23aee40166d5a
+</code></pre></div></div>
+
+<h3 id="final-step-perform-the-request">Final step: Perform the request</h3>
+
+<p>We’re ready to <code class="language-plaintext highlighter-rouge">curl</code> the request. We need to include the <code class="language-plaintext highlighter-rouge">Authorization</code>
+header, as well as the two required <code class="language-plaintext highlighter-rouge">x-amz-content-sha256</code> and <code class="language-plaintext highlighter-rouge">x-amz-date</code>
+headers. We also need the <code class="language-plaintext highlighter-rouge">Host</code> header, but <code class="language-plaintext highlighter-rouge">curl</code> will place this one for us
+automatically, based on the URL provided.</p>
+
+<p>Here’s the complete call:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -v https://my-precious-bucket.s3.amazonaws.com/ \
+     -H "Authorization: AWS4-HMAC-SHA256 \
+         Credential=AKIAIOSFODNN7EXAMPLE/20150915/us-east-1/s3/aws4_request, \
+         SignedHeaders=host;x-amz-content-sha256;x-amz-date, \
+         Signature=182072eb53d85c36b2d791a1fa46a12d23454ec1e921b02075c23aee40166d5a" \
+     -H "x-amz-content-sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" \
+     -H "x-amz-date: 20150915T124500Z"
+</code></pre></div></div>
+
+<p>If we’ve done everything right, we’ll receive the following (formatted for clarity):</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;ListBucketResult</span> <span class="na">xmlns=</span><span class="s">"http://s3.amazonaws.com/doc/2006-03-01/"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;Name&gt;</span>my-precious-bucket<span class="nt">&lt;/Name&gt;</span>
+  <span class="nt">&lt;Prefix&gt;&lt;/Prefix&gt;</span>
+  <span class="nt">&lt;Marker&gt;&lt;/Marker&gt;</span>
+  <span class="nt">&lt;MaxKeys&gt;</span>1000<span class="nt">&lt;/MaxKeys&gt;</span>
+  <span class="nt">&lt;IsTruncated&gt;</span>false<span class="nt">&lt;/IsTruncated&gt;</span>
+  <span class="nt">&lt;Contents&gt;</span>
+    <span class="nt">&lt;Key&gt;</span>my-precious-file-1.txt<span class="nt">&lt;/Key&gt;</span>
+    <span class="nt">&lt;LastModified&gt;</span>2015-09-15T12:49:35.000Z<span class="nt">&lt;/LastModified&gt;</span>
+    <span class="nt">&lt;ETag&gt;</span><span class="ni">&amp;quot;</span>e243bb39c844b3543a7726576c869caf<span class="ni">&amp;quot;</span><span class="nt">&lt;/ETag&gt;</span>
+    <span class="nt">&lt;Size&gt;</span>7<span class="nt">&lt;/Size&gt;</span>
+    <span class="nt">&lt;Owner&gt;</span>
+      <span class="nt">&lt;ID&gt;</span>948b6b7d545aaa9ed10fa52fcf06827960c607d47c96574101e3a68045fc872d<span class="nt">&lt;/ID&gt;</span>
+      <span class="nt">&lt;DisplayName&gt;</span>lukasz<span class="nt">&lt;/DisplayName&gt;</span>
+    <span class="nt">&lt;/Owner&gt;</span>
+    <span class="nt">&lt;StorageClass&gt;</span>STANDARD<span class="nt">&lt;/StorageClass&gt;</span>
+  <span class="nt">&lt;/Contents&gt;</span>
+<span class="nt">&lt;/ListBucketResult&gt;</span>
+</code></pre></div></div>
+
+<h2 id="moving-further">Moving further</h2>
+
+<p>If you’ve made it this far, congratulations! Correctly signing an AWS request
+is not trivial and there’s a reason why we use SDKs to do it for us.</p>
+
+<p>The steps described above are the same for signing all authenticated S3 REST
+API requests. The simple example makes it easier to understand, but the process
+is the same throughout the API.</p>
+
+<p>For more complex requests (e.g.
+<a href="http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html">PUT Object</a>),
+keep the following in mind:</p>
+
+<ul>
+  <li>Your request might have a nonempty body (e.g. the file to upload), so the
+value for <code class="language-plaintext highlighter-rouge">x-amz-content-sha256</code> and the <code class="language-plaintext highlighter-rouge">&lt;HashedPayload&gt;</code> line will be based
+on that. You can use <code class="language-plaintext highlighter-rouge">openssl dgst -sha256 picture.jpg</code> to get the
+digest of <code class="language-plaintext highlighter-rouge">picture.jpg</code></li>
+  <li>If you include other headers in the request (e.g. <code class="language-plaintext highlighter-rouge">Content-Type</code> for PUT
+Object), you also need to include them (in lowercase!) in the Canonical
+Request representation.</li>
+</ul>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>If you’re having trouble, first check the following:</p>
+
+<ul>
+  <li>Ensure you’re not including whitespace where it doesn’t belong (or the other
+way around)</li>
+  <li>Use the appropriate key in the appropriate place
+    <ul>
+      <li>AWS access key ID goes into the <code class="language-plaintext highlighter-rouge">Credential</code> part of the <code class="language-plaintext highlighter-rouge">Authorization</code>
+header</li>
+      <li>AWS secret access key is used to generate your signing key</li>
+    </ul>
+  </li>
+  <li>Your request must be performed within 15 minutes of the specified timestamp.
+Otherwise it will be rejected by the server.</li>
+</ul>
+
+<p>Fortunately, error messages from the API are quite descriptive. For
+instance, if you fail to meet the 15 minutes time limit, you will receive a
+<code class="language-plaintext highlighter-rouge">RequestTimeTooSkewed</code> error.</p>
+
+<p>If you have further problems, drop me an e-mail. I will do my best to help.</p>
+
+</article>
+
+    </main>
+  
+
+</body></html>
