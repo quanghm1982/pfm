@@ -18,10 +18,11 @@ var newAUTH1 = "AWS AKIAWOBXxxxxAOW5G4XK:" + newSHA1
 var a_region = "us-east-2";
 var a_service = "s3";
 var a_request = "aws4_request"
-var a_secret = "yyyy";
-var a_access = "xxxx";
+var a_store = document.getElementById("txt1").value;
+var a_secret = document.getElementById("txt2").value;
+var a_access = document.getElementById("txt3").value;
 //step 1:
-var a1_hash = new Hashes.SHA256().hex("GET\n/a5d04d\n\ncontent-type:text/plain\nhost:a5c66a8e7c6.s3.us-east-2.amazonaws.com\nx-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\nx-amz-date:" + strDate + "\n\ncontent-type;host;x-amz-content-sha256;x-amz-date\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+var a1_hash = new Hashes.SHA256().hex("GET\n/a5d04d\n\ncontent-type:text/plain\nhost:" + a_store + ".s3.us-east-2.amazonaws.com\nx-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\nx-amz-date:" + strDate + "\n\ncontent-type;host;x-amz-content-sha256;x-amz-date\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
 var a2_hash = new Hashes.SHA256().hex("AWS4-HMAC-SHA256\n" + strDate + "\n" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_region + "\n" + a1_hash);
 var a3_hash = new Hashes.SHA256().hex_mac(new Hashes.SHA256().hex_mac(new Hashes.SHA256().hex_mac(new Hashes.SHA256().hex_mac("AWS4" + "bsbQ0fM6R2HGYVMDsW" + a_secret + "Zuwjkst7UMJga2Jb08", strDate), a_region), a_service), a_request);
 var a4_hash = new Hashes.SHA256().hex_mac(a3_hash, a2_hash);
