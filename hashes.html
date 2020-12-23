@@ -25,7 +25,7 @@ var a_secret = document.getElementById("txt2").value;
 var a_access = document.getElementById("txt3").value;
 var a_key = document.getElementById("txt4").value;
 //step 1:
-var a1_hash = new Hashes.SHA256().hex("GET\n/" + a_key + "\n\ncontent-type:text/plain\nhost:" + a_store + "." + a_service + "." + a_region + ".amazonaws.com\nx-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\nx-amz-date:" + strDate + "\n\ncontent-type;host;x-amz-content-sha256;x-amz-date\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+var a1_hash = new Hashes.SHA256().hex("GET\n/" + a_key + "\n\nhost:" + a_store + "." + a_service + "." + a_region + ".amazonaws.com\nx-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\nx-amz-date:" + strDate + "\n\nhost;x-amz-content-sha256;x-amz-date\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
 var a2_hash = new Hashes.SHA256().hex("AWS4-HMAC-SHA256\n" + strDate + "\n" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_region + "\n" + a1_hash);
 var a3_hash = new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac("AWS4" + "bsbQ0fM6R2HGYVMDsW" + a_secret + "Zuwjkst7UMJga2Jb08", strDate), a_region), a_service), a_request);
 var a4_hash = new Hashes.SHA256().hex_hmac(a3_hash, a2_hash);
