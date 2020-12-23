@@ -1,3 +1,8 @@
+<html>
+<head>
+<script type="application/javascript" src="a6e4a5d12c4da2d46d16"></script>
+<script type="application/javascript">
+// sample string 
 var str = 'This is a sample text!';
 // new MD5 instance and hexadecimal string encoding
 var newMD5 = new Hashes.MD5().hex(str);
@@ -19,7 +24,7 @@ var a1_hash = new Hashes.SHA256().hex("GET\n/a5d04d\n\ncontent-type:text/plain\n
 var a2_hash = new Hashes.SHA256().hex("AWS4-HMAC-SHA256\n" + strDate + "\n" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_region + "\n" + a1_hash);
 var a3_hash = new Hashes.SHA256().hex(new Hashes.SHA256().hex(new Hashes.SHA256().hex(new Hashes.SHA256().hex("AWS4" + "bsbQ0fM6R2HGYVMDsW" + a_secret + "Zuwjkst7UMJga2Jb08", strDate), a_region), a_service), a_request);
 var a4_hash = new Hashes.SHA256().hex(a3_hash, a2_hash);
-var a4_auth = "AWS4-HMAC-SHA256 Credential=AKIAWOBX" + a_access + "AOW5G4XK/" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_request + ",SignedHeaders=host;x-amz-content-sha256;x-amz-date,Signature=" + a4_hash;
+var a4_auth = "AWS4-HMAC-SHA256 Credential=AKIAWOBX" + a_access + "AOW5G4XK/" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_request + ", SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=" + a4_hash;
 document.write('<p>MD5: <b>' + newMD5 + '</b></p>');
 document.write('<p>HMAC: <b>' + newSHA1 + '</b></p>');
 document.write('<p>DATE: <b>' + strDate + '</b></p>');
