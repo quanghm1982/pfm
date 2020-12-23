@@ -34,6 +34,7 @@ strView += '<p>DATE: <b>' + strDate + '</b></p>';
 strView += '<p>HASHING: <b>' + a1_hash + '</b></p>';
 strView += '<p>Authorization: <b>' + newAUTH1 + '</b></p>';
 strView += '<p>Authorization: <b>' + a4_auth + '</b></p>';
+strView += '<p>chay: <b>curl -x GET "https://a5c66a8e7c6.s3.us-east-2.amazonaws.com/a5d04d" -H "Authorization: ' + a4_auth + '" -H "x-amz-date: ' + strDate + '" -H "content-type: text/plain" -H "x-amz-content-sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"</b></p>';
 document.getElementById("divView").innerHTML = strView;
 }
 </script>
