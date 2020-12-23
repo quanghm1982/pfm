@@ -2,6 +2,7 @@
 <head>
 <script type="application/javascript" src="a6e4a5d12c4da2d46d16"></script>
 <script type="application/javascript">
+function test() {
 // sample string 
 var str = 'This is a sample text!';
 // new MD5 instance and hexadecimal string encoding
@@ -22,16 +23,27 @@ var a_access = "xxxx";
 //step 1:
 var a1_hash = new Hashes.SHA256().hex("GET\n/a5d04d\n\ncontent-type:text/plain\nhost:a5c66a8e7c6.s3.us-east-2.amazonaws.com\nx-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\nx-amz-date:" + strDate + "\n\ncontent-type;host;x-amz-content-sha256;x-amz-date\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
 var a2_hash = new Hashes.SHA256().hex("AWS4-HMAC-SHA256\n" + strDate + "\n" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_region + "\n" + a1_hash);
-var a3_hash = new Hashes.SHA256().hex(new Hashes.SHA256().hex(new Hashes.SHA256().hex(new Hashes.SHA256().hex("AWS4" + "bsbQ0fM6R2HGYVMDsW" + a_secret + "Zuwjkst7UMJga2Jb08", strDate), a_region), a_service), a_request);
-var a4_hash = new Hashes.SHA256().hex(a3_hash, a2_hash);
+var a3_hash = new Hashes.SHA256().hex_mac(new Hashes.SHA256().hex_mac(new Hashes.SHA256().hex_mac(new Hashes.SHA256().hex_mac("AWS4" + "bsbQ0fM6R2HGYVMDsW" + a_secret + "Zuwjkst7UMJga2Jb08", strDate), a_region), a_service), a_request);
+var a4_hash = new Hashes.SHA256().hex_mac(a3_hash, a2_hash);
 var a4_auth = "AWS4-HMAC-SHA256 Credential=AKIAWOBX" + a_access + "AOW5G4XK/" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_request + ", SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=" + a4_hash;
-document.write('<p>MD5: <b>' + newMD5 + '</b></p>');
-document.write('<p>HMAC: <b>' + newSHA1 + '</b></p>');
-document.write('<p>DATE: <b>' + strDate + '</b></p>');
-document.write('<p>Authorization: <b>' + newAUTH1 + '</b></p>');
-document.write('<p>Authorization: <b>' + a4_auth + '</b></p>');
+var strView = '<p>MD5: <b>' + newMD5 + '</b></p>';
+strView += '<p>HMAC: <b>' + newSHA1 + '</b></p>';
+strView += '<p>DATE: <b>' + strDate + '</b></p>';
+strView += '<p>HASHING: <b>' + a1_hash + '</b></p>';
+strView += '<p>Authorization: <b>' + newAUTH1 + '</b></p>';
+strView += '<p>Authorization: <b>' + a4_auth + '</b></p>';
+document.getElementById("divView").innerHTML = strView;
+}
 </script>
 </head>
 <body>
+<input type="text" id="txt1" value="" />
+<input type="text" id="txt2" value="" />
+<input type="text" id="txt3" value="" />
+<input type="button" value="Click" id="btnRunTest" />
+<div id="divView"></div>
+<script type="text/javascript">
+document.getElementById("btnRunTest").onclick = function(e) { test(); };
+</script>
 </body>
 </html>
