@@ -56,10 +56,12 @@ import sys, os, base64, datetime, hashlib, hmac
 method = 'GET'
 service = 's3'
 region = 'us-east-2'
-a0_hash = 'mybucket'
-a1_hash = 'mykey'
-host = a0_hash + '.' + service + '.' + service + '.amazonaws.com'
-endpoint = 'https://' + a0_hash + '.' + service + '.' + service + '.amazonaws.com/' + a1_hash
+a0_hash = 'aaaaaaaa'
+a1_hash = 'bbbbbb'
+mykey1 = 'xxxx'
+mykey2 = 'yyyy'
+host = a0_hash + '.' + service + '.' + region + '.amazonaws.com'
+endpoint = 'https://' + host + '/' + a1_hash
 request_parameters = ''
 
 def sign(key, msg):
@@ -104,7 +106,7 @@ signature = hmac.new(signing_key, (string_to_sign).encode('utf-8'), hashlib.sha2
 
 authorization_header = algorithm + ' ' + 'Credential=' + access_key + '/' + credential_scope + ', ' +  'SignedHeaders=' + signed_headers + ', ' + 'Signature=' + signature
 
-headers = {'x-amz-date':amzdate, 'x-amz-content-sha256':payload_hash, 'content-type':'text/plain' 'Authorization':authorization_header}
+headers = {'x-amz-date':amzdate, 'x-amz-content-sha256':payload_hash, 'content-type':'text/plain', 'Authorization':authorization_header}
 
-print("{},{}".format(headers,string_to_sign))
+print("{},{},{},{}".format(headers,string_to_sign,host,endpoint))
 ```
