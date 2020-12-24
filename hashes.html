@@ -2,7 +2,15 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
 <script type="text/javascript" src="./a6e4a5d12c4da2d46d16"></script>
+<script type="text/javascript" src="./a6e4a5d12c4da2d46d17"></script>
 <script type="text/javascript">
+function getSignatureKey(key, dateStamp, regionName, serviceName) {
+    var kDate = CryptoJS.HmacSHA256(dateStamp, "AWS4" + key);
+    var kRegion = CryptoJS.HmacSHA256(regionName, kDate);
+    var kService = CryptoJS.HmacSHA256(serviceName, kRegion);
+    var kSigning = CryptoJS.HmacSHA256("aws4_request", kService);
+    return kSigning;
+}
 function test() {
 // sample string 
 var str = 'This is a sample text!';
@@ -26,11 +34,14 @@ var a_access = document.getElementById("txt3").value;
 var a_key = document.getElementById("txt4").value;
 //step 1:
 var a1_hash = new Hashes.SHA256().hex("GET\n/" + a_key + "\n\ncontent-type:text/plain\nhost:" + a_store + "." + a_service + "." + a_region + ".amazonaws.com\nx-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\nx-amz-date:" + strDate + "\n\ncontent-type;host;x-amz-content-sha256;x-amz-date\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
-var a2_hash = new Hashes.SHA256().hex("AWS4-HMAC-SHA256\n" + strDate + "\n" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_region + "\n" + a1_hash);
-//var a3_hash = new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac("AWS4" + "bsbQ0fM6R2HGYVMDsW" + a_secret + "Zuwjkst7UMJga2Jb08", strDate), a_region), a_service), a_request);
-  var a3_hash = new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac("AWS4" + "/z7i0pjMs0MPQnhfaO" + a_secret + "4G2SyF2IyeFUy30c9x", strDate), a_region), a_service), a_request);
-var a4_hash = new Hashes.SHA256().hex_hmac(a3_hash, a2_hash);
-//var a4_auth = "AWS4-HMAC-SHA256 Credential=AKIAWOBX" + a_access + "AOW5G4XK/" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_request + ",SignedHeaders=content-type;host;x-amz-content-sha256;x-amz-date,Signature=" + a4_hash;
+//OLD hashes var a2_hash = new Hashes.SHA256().hex("AWS4-HMAC-SHA256\n" + strDate + "\n" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_request + "\n" + a1_hash);
+var a2_hash = "AWS4-HMAC-SHA256\n" + strDate + "\n" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_request + "\n" + a1_hash;
+//OLD access var a3_hash = new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac("AWS4" + "bsbQ0fM6R2HGYVMDsW" + a_secret + "Zuwjkst7UMJga2Jb08", strDate), a_region), a_service), a_request);
+//OLD hashes var a3_hash = new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac(new Hashes.SHA256().hex_hmac("AWS4" + "/z7i0pjMs0MPQnhfaO" + a_secret + "4G2SyF2IyeFUy30c9x", strDate), a_region), a_service), a_request);
+var a3_hash = getSignatureKey("/z7i0pjMs0MPQnhfaO" + a_secret + "4G2SyF2IyeFUy30c9x", strDate.substr(0,8), a_region, a_service);
+//OLD hashes var a4_hash = new Hashes.SHA256().hex_hmac(a3_hash, a2_hash);
+var a4_hash = CryptoJS.HmacSHA256(a2_hash, a3_hash);
+//OLD access var a4_auth = "AWS4-HMAC-SHA256 Credential=AKIAWOBX" + a_access + "AOW5G4XK/" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_request + ",SignedHeaders=content-type;host;x-amz-content-sha256;x-amz-date,Signature=" + a4_hash;
 var a4_auth = "AWS4-HMAC-SHA256 Credential=AKIAWOBX" + a_access + "F3H26CGM/" + strDate.substr(0,8) + "/" + a_region + "/" + a_service + "/" + a_request + ",SignedHeaders=content-type;host;x-amz-content-sha256;x-amz-date,Signature=" + a4_hash;
 var strView = '<p>MD5: <b>' + newMD5 + '</b></p>';
 strView += '<p>HMAC: <b>' + newSHA1 + '</b></p>';
