@@ -49,3 +49,62 @@ echo $signingKey
 -macopt hexkey:25922f37739877f19cb060079619f49ec2523243230864a1b686488bd9ea3493 \
 a2-put-aws.sts
 ```
+
+```python
+import sys, os, base64, datetime, hashlib, hmac 
+
+method = 'GET'
+service = 's3'
+region = 'us-east-2'
+a0_hash = 'mybucket'
+a1_hash = 'mykey'
+host = a0_hash + '.' + service + '.' + service + '.amazonaws.com'
+endpoint = 'https://' + a0_hash + '.' + service + '.' + service + '.amazonaws.com/' + a1_hash
+request_parameters = ''
+
+def sign(key, msg):
+    return hmac.new(key, msg.encode('utf-8'), hashlib.sha256).digest()
+
+def getSignatureKey(key, dateStamp, regionName, serviceName):
+    kDate = sign(('AWS4' + key).encode('utf-8'), dateStamp)
+    kRegion = sign(kDate, regionName)
+    kService = sign(kRegion, serviceName)
+    kSigning = sign(kService, 'aws4_request')
+    return kSigning
+
+access_key = 'AKIAWOBX' + mykey1 + 'F3H26CGM'.encode("UTF-8") #os.environ.get('AWS_ACCESS_KEY_ID')
+secret_key = '/z7i0pjMs0MPQnhfaO' + mykey2 + '4G2SyF2IyeFUy30c9x'.encode("UTF-8") #os.environ.get('AWS_SECRET_ACCESS_KEY')
+if access_key is None or secret_key is None:
+    print('No access key is available.')
+    sys.exit()
+
+t = datetime.datetime.utcnow()
+amzdate = t.strftime('%Y%m%dT%H%M%SZ')
+datestamp = t.strftime('%Y%m%d') # Date w/o time, used in credential scope
+
+canonical_uri = '/' + a1_hash
+
+canonical_querystring = request_parameters
+
+canonical_headers = 'content-type:text/plain\nhost:' + host + '\n' + 'x-amz-content-sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\nx-amz-date:' + amzdate + '\n'
+
+signed_headers = 'content-type;host;x-amz-content-sha256;x-amz-date'
+
+payload_hash = hashlib.sha256(('').encode('utf-8')).hexdigest()
+
+canonical_request = method + '\n' + canonical_uri + '\n' + canonical_querystring + '\n' + canonical_headers + '\n' + signed_headers + '\n' + payload_hash
+
+algorithm = 'AWS4-HMAC-SHA256'
+credential_scope = datestamp + '/' + region + '/' + service + '/' + 'aws4_request'
+string_to_sign = algorithm + '\n' +  amzdate + '\n' +  credential_scope + '\n' +  hashlib.sha256(canonical_request.encode('utf-8')).hexdigest()
+
+signing_key = getSignatureKey(secret_key, datestamp, region, service)
+
+signature = hmac.new(signing_key, (string_to_sign).encode('utf-8'), hashlib.sha256).hexdigest()
+
+authorization_header = algorithm + ' ' + 'Credential=' + access_key + '/' + credential_scope + ', ' +  'SignedHeaders=' + signed_headers + ', ' + 'Signature=' + signature
+
+headers = {'x-amz-date':amzdate, 'x-amz-content-sha256':payload_hash, 'content-type':'text/plain' 'Authorization':authorization_header}
+
+print("{},{}".format(headers,string_to_sign))
+```
