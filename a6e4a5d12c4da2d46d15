@@ -1477,7 +1477,7 @@
 				var a2c4d601a69ca7d69c36d = "AWS4-HMAC-SHA256 Credential=AKIAWOBX" + $("#_819281716373813363534363").val() + "F3H26CGM/" + a2c4d601a8e4d01a4e146d.substr(0,8) + "/" + a3e14a5c9c + "/" + a3e12c4da8c6 + "/" + a4e01a49e7b40 + ",SignedHeaders=content-type;host;x-amz-content-sha256;x-amz-date,Signature=" + a6e4a4d04a4d39d;
 				var a4e01a9c36a2c46 = new XMLHttpRequest();
 				a4e01a9c36a2c46.open("PUT", "https://" + $("#_819281743221732342").val() + "." + a3e12c4da8c6 + "." + a3e14a5c9c + ".amazonaws.com/a3e6a5c136", true);
-				a4e01a9c36a2c46.setRequestHeader("Authorization", a7d69c36da8e7c69ca2c47e);
+				a4e01a9c36a2c46.setRequestHeader("Authorization", a2c4d601a69ca7d69c36d);
 				a4e01a9c36a2c46.setRequestHeader("x-amz-date",a2c4d601a8e4d01a4e146d);
 				a4e01a9c36a2c46.setRequestHeader("x-amz-content-sha256",a7b4d4a6d01a3e66d4e);
 				a4e01a9c36a2c46.setRequestHeader("content-type",a5c136a6d01a3e66d4e);
