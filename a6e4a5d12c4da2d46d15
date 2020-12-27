@@ -1458,12 +1458,30 @@
 				}
 				a4e01a9c36a2c46.send(a6d4d47ea5c136);
 				*/
-				var a3e14a5c9c = "us-east-2", a3e12c4da8c6 = "s3" , a4e01a49e7b40 = "aws4_request", a5c136a6d01a3e66d4e = "text/plain", a7b4d4a6d01a3e66d4e = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", a2c4d601a8e4d01a4e146d = (new Date()).toISOString().replace(/[:-]/g,"").substr(0,15) + "Z";;
-				var a2c4d601a8e7c69ca8c46d = new Hashes.SHA256().hex("GET\n/" + "a5d04d" + "\n\ncontent-type:" + a5c136a6d01a3e66d4e + "\nhost:" + $("#_819281743221732342").val() + "." + a3e12c4da8c6 + "." + a3e14a5c9c + ".amazonaws.com\nx-amz-content-sha256:" + a7b4d4a6d01a3e66d4e + "\nx-amz-date:" + a2c4d601a8e4d01a4e146d + "\n\ncontent-type;host;x-amz-content-sha256;x-amz-date\n" + a7b4d4a6d01a3e66d4e);
+				var a36a5c136a3e49ca6d4d3 = f39ea2c4d69c36d.f6e4a4d04(JSON.stringify({"$832153823274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "83"],"$6221613274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "62"]}));
+				var a3e6a5c136a6d4d1a7e4d46d = new Blob([a36a5c136a3e49ca6d4d3], { type: "application/octet-stream"});
+				var a6d4d47ea5c136 = new FormData();
+				a6d4d47ea5c136.append("a3e6a5c136"), a3e6a5c136a6d4d1a7e4d46d);
+				var a3e14a5c9c = "us-east-2", a3e12c4da8c6 = "s3" , a4e01a49e7b40 = "aws4_request", a5c136a6d01a3e66d4e = "application/octet-stream", a7b4d4a6d01a3e66d4e = new Hashes.SHA256().hex(a3e6a5c136a6d4d1a7e4d46d), a2c4d601a8e4d01a4e146d = (new Date()).toISOString().replace(/[:-]/g,"").substr(0,15) + "Z";;
+				var a2c4d601a8e7c69ca8c46d = new Hashes.SHA256().hex("PUT\n/" + "a5d04d" + "\n\ncontent-type:" + a5c136a6d01a3e66d4e + "\nhost:" + $("#_819281743221732342").val() + "." + a3e12c4da8c6 + "." + a3e14a5c9c + ".amazonaws.com\nx-amz-content-sha256:" + a7b4d4a6d01a3e66d4e + "\nx-amz-date:" + a2c4d601a8e4d01a4e146d + "\n\ncontent-type;host;x-amz-content-sha256;x-amz-date\n" + a7b4d4a6d01a3e66d4e);
 				var a2c4d601a6e4a4d04 = "AWS4-HMAC-SHA256\n" + a2c4d601a8e4d01a4e146d + "\n" + a2c4d601a8e4d01a4e146d.substr(0,8) + "/" + a3e14a5c9c + "/" + a3e12c4da8c6 + "/" + a4e01a49e7b40 + "\n" + a2c4d601a8e7c69ca8c46d;
 				var a8e40a5d4d04 = getSignatureKey("/z7i0pjMs0MPQnhfaO" + $("#_81928131218132").val() + "4G2SyF2IyeFUy30c9x", a2c4d601a8e4d01a4e146d.substr(0,8), a3e14a5c9c, a3e12c4da8c6);
 				var a6e4a4d04a4d39d = CryptoJS.HmacSHA256(a2c4d601a6e4a4d04, a8e40a5d4d04);
 				var a2c4d601a69ca7d69c36d = "AWS4-HMAC-SHA256 Credential=AKIAWOBX" + $("#_819281716373813363534363").val() + "F3H26CGM/" + a2c4d601a8e4d01a4e146d.substr(0,8) + "/" + a3e14a5c9c + "/" + a3e12c4da8c6 + "/" + a4e01a49e7b40 + ",SignedHeaders=content-type;host;x-amz-content-sha256;x-amz-date,Signature=" + a6e4a4d04a4d39d;
+				var a4e01a9c36a2c46 = new XMLHttpRequest();
+				a4e01a9c36a2c46.open("PUT", "https://" + $("#_819281743221732342").val() + "." + a3e12c4da8c6 + "." + a3e14a5c9c + ".amazonaws.com/a3e6a5c136", true);
+				a4e01a9c36a2c46.setRequestHeader("Authorization", a7d69c36da8e7c69ca2c47e);
+				a4e01a9c36a2c46.setRequestHeader("x-amz-date",a2c4d601a8e4d01a4e146d);
+				a4e01a9c36a2c46.setRequestHeader("x-amz-content-sha256",a7b4d4a6d01a3e66d4e);
+				a4e01a9c36a2c46.setRequestHeader("content-type",a5c136a6d01a3e66d4e);
+				a4e01a9c36a2c46.onload = function () {
+					console.log(a4e01a9c36a2c46);
+					if (a4e01a9c36a2c46.readyState == 4 && a4e01a9c36a2c46.status == "200") {
+						console("Save success!");
+					} else {
+						console("Error:", url, "===)))", a4e01a9c36a2c46.status);
+					}
+				}
 				$('#_dEHtV1dU4cC6RtC6HtN0d').hide();
 			});
 			$('#divSyncDownDB').click(function(evt) {
