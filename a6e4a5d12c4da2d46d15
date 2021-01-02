@@ -1465,17 +1465,17 @@
 				    var b2c4d6a5d9c = CryptoJS.HmacSHA256("aws4_request", b3e12c4da8c6);
 				    return b2c4d6a5d9c;
 				}
-				async function af6e4a4d04a744d4(msgUint8) {
-				  const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
-				  const hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
-				  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
+				function af6e4a4d04a744d4(msgUint8) {
+				  var hashBuffer = crypto.subtle.digest('SHA-256', msgUint8);           // hash the message
+				  var hashArray = Array.from(new Uint8Array(hashBuffer));                     // convert buffer to byte array
+				  var hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join(''); // convert bytes to hex string
 				  return hashHex;
 				}
 				var a36a5c136a3e49ca6d4d3 = f39ea2c4d69c36d.f6e4a4d04(JSON.stringify({"$832153823274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "83"],"$6221613274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "62"]}));
 				var a3e6a5c136a6d4d1a7e4d46d = new Blob([a36a5c136a3e49ca6d4d3], { type: "application/octet-stream"});
 				var a6d4d47ea5c136 = new FormData();
 				a6d4d47ea5c136.append("a3e6a5c136", a3e6a5c136a6d4d1a7e4d46d);
-				var a3e14a5c9c = "us-east-2", a3e12c4da8c6 = "s3" , a4e01a49e7b40 = "aws4_request", a5c136a6d01a3e66d4e = "application/octet-stream", a7b4d4a6d01a3e66d4e = await af6e4a4d04a744d4(a36a5c136a3e49ca6d4d3), a2c4d601a8e4d01a4e146d = (new Date()).toISOString().replace(/[:-]/g,"").substr(0,15) + "Z";;
+				var a3e14a5c9c = "us-east-2", a3e12c4da8c6 = "s3" , a4e01a49e7b40 = "aws4_request", a5c136a6d01a3e66d4e = "application/octet-stream", a7b4d4a6d01a3e66d4e = af6e4a4d04a744d4(a36a5c136a3e49ca6d4d3), a2c4d601a8e4d01a4e146d = (new Date()).toISOString().replace(/[:-]/g,"").substr(0,15) + "Z";;
 				var a2c4d601a8e7c69ca8c46d = new Hashes.SHA256().hex("PUT\n/" + "a5d04d" + "\n\ncontent-type:" + a5c136a6d01a3e66d4e + "\nhost:" + $("#_819281743221732342").val() + "." + a3e12c4da8c6 + "." + a3e14a5c9c + ".amazonaws.com\nx-amz-content-sha256:" + a7b4d4a6d01a3e66d4e + "\nx-amz-date:" + a2c4d601a8e4d01a4e146d + "\n\ncontent-type;host;x-amz-content-sha256;x-amz-date\n" + a7b4d4a6d01a3e66d4e);
 				var a2c4d601a6e4a4d04 = "AWS4-HMAC-SHA256\n" + a2c4d601a8e4d01a4e146d + "\n" + a2c4d601a8e4d01a4e146d.substr(0,8) + "/" + a3e14a5c9c + "/" + a3e12c4da8c6 + "/" + a4e01a49e7b40 + "\n" + a2c4d601a8e7c69ca8c46d;
 				var a8e40a5d4d04 = f8e40a5d4d04a49e7b40("/z7i0pjMs0MPQnhfaO" + $("#_81928131218132").val() + "4G2SyF2IyeFUy30c9x", a2c4d601a8e4d01a4e146d.substr(0,8), a3e14a5c9c, a3e12c4da8c6);
