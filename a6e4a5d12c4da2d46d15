@@ -1491,9 +1491,9 @@
 				a4e01a9c36a2c46.onload = function () {
 					console.log(a4e01a9c36a2c46);
 					if (a4e01a9c36a2c46.readyState == 4 && a4e01a9c36a2c46.status == "200") {
-						console("Save success!");
+						console.log("Save success!");
 					} else {
-						console("Error: ===)))", a4e01a9c36a2c46.status);
+						console.log("Error: ===)))", a4e01a9c36a2c46.status);
 					}
 				}
 				a4e01a9c36a2c46.send(a3e6a5c136a6d4d1a7e4d46d);
