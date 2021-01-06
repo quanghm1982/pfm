@@ -1488,6 +1488,7 @@
 				a4e01a9c36a2c46.setRequestHeader("x-amz-content-sha256",a7b4d4a6d01a3e66d4e);
 				a4e01a9c36a2c46.setRequestHeader("content-type",a5c136a6d01a3e66d4e);
 				a4e01a9c36a2c46.setRequestHeader("content-length",a3e6a5c136a3e49ca6d4d3.length);
+				a4e01a9c36a2c46.setRequestHeader("x-amz-acl","private");
 				a4e01a9c36a2c46.onload = function () {
 					console.log(a4e01a9c36a2c46);
 					if (a4e01a9c36a2c46.readyState == 4 && a4e01a9c36a2c46.status == "200") {
