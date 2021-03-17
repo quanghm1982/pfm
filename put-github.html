@@ -21,6 +21,7 @@
     //https://docs.github.com/en/free-pro-team@latest/rest/overview/media-types#request-specific-version
     //https://docs.github.com/en/free-pro-team@latest/rest/overview/resources-in-the-rest-api
     function testUint8() {
+        /*
         var url = "https://api.github.com/repos/quanghm1982/pfm/contents/textfileaaa";
         var data = {
             "message": "my commit message",
@@ -45,6 +46,18 @@
             }
         }
         xhr.send(json);
+        */
+        var formData = new FormData();
+
+        // JavaScript file-like object
+        var content = '<a id="a"><b id="b">hey!</b></a>'; // the body of the new file...
+        var blob = new Blob([content], { type: "text/xml"});
+
+        formData.append("webmasterfile", blob);
+
+        var request = new XMLHttpRequest();
+        request.open("POST", "http://www.wiseex.com/upload");
+        request.send(formData);
     }
 
     function hexStringtoBlob(s) {
