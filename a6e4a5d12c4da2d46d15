@@ -148,7 +148,7 @@
 	}
 	function f4da5d4d01f8e40a3e6f5c136(_b2ca4d46ef4e01a5c41) {
 		try {
-			/*
+			//--- BAT DAU LAY THEO URL
 			var oReq = new XMLHttpRequest();
 			oReq.open("GET", $("#_819281743221732342").val(), true);
 			oReq.responseType = "arraybuffer";
@@ -182,7 +182,9 @@
 				}
 			};
 			oReq.send(null);
-			*/
+			//--- KET THUC LAY THEO URL
+			//--- BAT DAU LAY THEO AWS S3
+			/*
 			var f8e40a5d4d04a49e7b40 = function(a2d1a6e48e, a6d4d49y, a3e14a5c9c, a3e12c4da8c6) {
 				var b6d4e49c = CryptoJS.HmacSHA256(a6d4d49y, "AWS4" + a2d1a6e48e);
 				var b3e14a5c9c = CryptoJS.HmacSHA256(a3e14a5c9c, b6d4e49c);
@@ -232,6 +234,8 @@
 				}
 			}
 			a4e01a9c36a2c46.send(null);
+			*/
+			//--- KET THUC LAY THEO AWS S3
 		} catch($32) {
 			throw $32;
 		}
