@@ -1590,7 +1590,7 @@
 				}
 			});
 			$('#divOKDB').click(function(evt) {
-				$("#txtnote").value = JSON.stringify({"$832153823274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "83"],"$6221613274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "62"]});
+				$("#txtnote").val(JSON.stringify({"$832153823274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "83"],"$6221613274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "62"]}));
 				$('#_dEHtV1dU4cC6RtC6HtN0d').hide();
 			});
 			$('#divSavingDB').click(function(evt) {
