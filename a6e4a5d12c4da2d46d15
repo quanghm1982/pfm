@@ -1589,6 +1589,13 @@
 					}
 				}
 			});
+			$('#divOKDB').click(function(evt) {
+				$("#txtnote").value = JSON.stringify({"$832153823274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "83"],"$6221613274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "62"]});
+				$('#_dEHtV1dU4cC6RtC6HtN0d').hide();
+			});
+			$('#divSavingDB').click(function(evt) {
+				$('#_dEHtV1dU4cC6RtC6HtN0d').hide();
+			});
 			console.log("a4d46ef5c46d4ea6d4e4d3f8e48ea2c4f2c42ca7b6f5d136d...");
 		} catch($32) {
 			throw $32;
@@ -1835,7 +1842,11 @@
 			__4d06cd1e178ec6d5ff38662930117d0e.$029a2e09b4f8c2ea23192b8cec66f6b1(b2ca3e01f8e606d4ea3e06ef4e02c, f7ea7b16d4df2c42ca6d68ef2d46e("divUploadCloudant", "Upload Cloudant", "divViewingBtn", "contact")
 			);
 			__4d06cd1e178ec6d5ff38662930117d0e.$029a2e09b4f8c2ea23192b8cec66f6b1(b2ca3e01f8e606d4ea3e06ef4e02c, f7ea7b16d4df2c42ca6d68ef2d46e("divDelDB", "Delete Database", "divViewingBtn", "contact")
-		);
+			);
+			__4d06cd1e178ec6d5ff38662930117d0e.$029a2e09b4f8c2ea23192b8cec66f6b1(b2ca3e01f8e606d4ea3e06ef4e02c, f7ea7b16d4df2c42ca6d68ef2d46e("divOKDB", "OK Database", "divViewingBtn", "contact")
+			);
+			__4d06cd1e178ec6d5ff38662930117d0e.$029a2e09b4f8c2ea23192b8cec66f6b1(b2ca3e01f8e606d4ea3e06ef4e02c, f7ea7b16d4df2c42ca6d68ef2d46e("divSavingDB", "Saving Database", "divViewingBtn", "contact")
+			);
 		} catch($32) {
 			throw $32;
 		}
