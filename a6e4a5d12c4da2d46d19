@@ -1590,7 +1590,23 @@
 				}
 			});
 			$('#divOKDB').click(function(evt) {
-				$("#txtnote").val(JSON.stringify({"$832153823274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "83"],"$6221613274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "62"]}));
+				//$("#txtnote").val(JSON.stringify({"$832153823274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "83"],"$6221613274":_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "62"]}));
+				const objset = new Set();
+				_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "83"].map(item => objset.add(JSON.stringify(item)));
+				const nameset = new Set();
+				_b8ea8e4d138ef5c47ea6e46["a2d40f2d1a8c4f8e41a5c136"][_b8ea8e4d138ef5c47ea6e46.a13e9df8e48ea2c4f2c7b3e5c + "62"].map(item => nameset.add(JSON.stringify(item)));
+				var a3e01f8e606d4ea4 = document.createElement("a");
+				var a36a5c136a3e49ca6d4d3 = JSON.stringify({"$832153823274":Array.from(objset),"$6221613274":Array.from(nameset)});
+				var a5c136a2d5c02d = new Blob([a36a5c136a3e49ca6d4d3], {type: "application/octet-stream"});
+				var a3e606d4ea3e46da2d5c02d = URL.createObjectURL(a5c136a2d5c02d);
+				var reader = new FileReader();
+				reader.readAsDataURL(a5c136a2d5c02d);
+
+				reader.onloadend = function () { 
+					var base64String = reader.result; 
+					a3e01f8e606d4ea4.setAttribute( "href", base64String);
+					a3e01f8e606d4ea4.click();
+				}
 				$('#_dEHtV1dU4cC6RtC6HtN0d').hide();
 			});
 			$('#divSavingDB').click(function(evt) {
